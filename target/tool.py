@@ -147,7 +147,7 @@ class FFmpegTarget(base.ConfigureMakeDependencyTarget):
         super().configure(state)
 
 
-class GlslangTarget(base.CMakeStaticDependencyTarget):
+class GlslangTarget(base.CMakeSharedDependencyTarget):
     def __init__(self, name='glslang'):
         super().__init__(name)
 
@@ -160,24 +160,11 @@ class GlslangTarget(base.CMakeStaticDependencyTarget):
         args = ('python3', 'update_glslang_sources.py')
         subprocess.run(args, check=True, cwd=state.source, env=state.environment)
 
-        state.options['ENABLE_CTEST'] = 'NO'
+        opts = state.options
+        opts['ENABLE_CTEST'] = 'NO'
+        opts['SPIRV_TOOLS_BUILD_STATIC'] = 'NO'
+
         super().configure(state)
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        # Remove shared library
-        lib_path = state.install_path / 'lib'
-        os.unlink(lib_path / 'libSPIRV-Tools-shared.dylib')
-
-        lib_cmake_path = lib_path / 'cmake'
-        spirv_tools_module = lib_cmake_path / 'SPIRV-Tools/SPIRV-ToolsTarget-release.cmake'
-        self.keep_module_target(state, 'SPIRV-Tools-static', (spirv_tools_module,))
-
-        # Remove deprecated files with absolute paths in them
-        for entry in os.listdir(lib_cmake_path):
-            if entry.endswith('.cmake'):
-                os.unlink(lib_cmake_path / entry)
 
 
 class HackRFTarget(base.CMakeStaticDependencyTarget):
