@@ -216,10 +216,6 @@ class MoltenVKTarget(base.MakeTarget):
             'https://github.com/KhronosGroup/MoltenVK/archive/refs/tags/v1.2.11.tar.gz',
             'bfa115e283831e52d70ee5e13adf4d152de8f0045996cf2a33f0ac541be238b1')
 
-    def initialize(self, state: BuildState):
-        super().initialize(state)
-        self._make_dylib(state)
-
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('MoltenVKPackaging.xcodeproj')
 
@@ -253,47 +249,10 @@ class MoltenVKTarget(base.MakeTarget):
         src_path = state.build_path / 'Package/Latest/MoltenVK'
         shutil.copytree(src_path / 'include/MoltenVK', include_path / 'MoltenVK')
         shutil.copy(state.build_path / 'LICENSE', state.install_path / 'apache2.txt')
+        shutil.copy(src_path / 'dynamic/dylib/macOS/libMoltenVK.dylib', lib_path)
         shutil.copy(
             src_path / 'static/MoltenVK.xcframework/macos-arm64_x86_64/libMoltenVK.a',
             lib_path / 'libMoltenVK-static.a')
-
-        self._make_dylib(state)
-
-    def _make_dylib(self, state: BuildState):
-        lib_path = state.deps_path / self.name / 'lib'
-        static_lib_path = lib_path / 'libMoltenVK-static.a'
-        dynamic_lib_path = lib_path / 'libMoltenVK.dylib'
-
-        static_lib_time = os.stat(static_lib_path).st_mtime
-        dynamic_lib_time = os.stat(dynamic_lib_path).st_mtime if os.path.exists(dynamic_lib_path) else 0
-
-        if static_lib_time != dynamic_lib_time:
-            os.makedirs(state.lib_path, exist_ok=True)
-
-            args = [
-                'clang++',
-                '-stdlib=libc++',
-                '-dynamiclib',
-                '-arch', 'arm64',
-                '-arch', 'x86_64',
-                '-mmacosx-version-min=10.15',
-                '-compatibility_version', '1.0.0',
-                '-current_version', '1.0.0',
-                '-install_name', '@rpath/libMoltenVK.dylib',
-                '-framework', 'Metal',
-                '-framework', 'IOSurface',
-                '-framework', 'AppKit',
-                '-framework', 'QuartzCore',
-                '-framework', 'CoreGraphics',
-                '-framework', 'IOKit',
-                '-framework', 'Foundation',
-                '-o', dynamic_lib_path,
-                '-force_load', static_lib_path
-            ]
-            args += shlex.split(state.linker_flags())
-
-            subprocess.run(args, check=True, env=state.environment)
-            os.utime(dynamic_lib_path, (static_lib_time, static_lib_time))
 
 
 class Mpg123Target(base.CMakeStaticDependencyTarget):
