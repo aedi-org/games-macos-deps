@@ -237,9 +237,9 @@ class GlibTarget(base.MesonStaticTarget):
 
         super().configure(state)
 
-    # def post_build(self, state: BuildState):
-    #     super().post_build(state)
-    #     self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+        self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
 
     @staticmethod
     def _process_pkg_config(pcfile: Path, line: str) -> str:
