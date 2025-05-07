@@ -29,5 +29,7 @@
 /sdl2/include/SDL2/SDL_config_*.h
 /sdl2/include/SDL2/SDL_copying.h
 /sdl2/include/SDL2/SDL_test*.h
+/sndfile/bin/
+/sndfile/include/sndfile.hh
 !/vulkan-headers/share
 /vulkan-loader/loader/
