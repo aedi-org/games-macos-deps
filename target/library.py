@@ -18,6 +18,7 @@
 
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 import aedi.target.base as base
@@ -46,6 +47,44 @@ class DumbTarget(base.CMakeStaticDependencyTarget):
     @staticmethod
     def _process_pkg_config(pcfile: Path, line: str) -> str:
         return 'Libs: -L${libdir} -ldumb\n' if line.startswith('Libs:') else line
+
+
+class FfiTarget(base.ConfigureMakeStaticDependencyTarget):
+    def __init__(self, name='ffi'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz',
+            'b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('libffi.pc.in')
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        for header in ('ffi.h', 'ffitarget.h'):
+            self.make_platform_header(state, header)
+
+
+class FlacTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='flac'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/xiph/flac/releases/download/1.5.0/flac-1.5.0.tar.xz',
+            'f2c1c76592a82ffff8413ba3c4a1299b6c7ab06c734dee03fd88630485c2b920')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['BUILD_CXXLIBS'] = 'NO'
+        opts['BUILD_EXAMPLES'] = 'NO'
+        opts['BUILD_PROGRAMS'] = 'NO'
+        opts['BUILD_TESTING'] = 'NO'
+
+        super().configure(state)
 
 
 class FluidSynthTarget(base.CMakeStaticDependencyTarget):
@@ -89,6 +128,124 @@ class FmtTarget(base.CMakeStaticDependencyTarget):
         super().configure(state)
 
 
+class FreeTypeTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='freetype'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://downloads.sourceforge.net/project/freetype/freetype2/2.13.2/freetype-2.13.2.tar.xz',
+            '12991c4e55c506dd7f9b765933e62fd2be2e06d421505d7950a132e4f1bb484d')
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        bin_path = state.install_path / 'bin'
+        os.makedirs(bin_path)
+        shutil.copy(state.patch_path / 'freetype-config', bin_path)
+
+        def update_linker_flags(line: str):
+            link_flags = '-lbz2 -lpng16 -lz'
+            link_var = '  INTERFACE_LINK_LIBRARIES '
+
+            return f'{link_var}"{link_flags}"\n' if line.startswith(link_var) else line
+
+        cmake_module = state.install_path / 'lib/cmake/freetype/freetype-config.cmake'
+        self.update_text_file(cmake_module, update_linker_flags)
+
+
+class FtglTarget(base.ConfigureMakeStaticDependencyTarget):
+    def __init__(self, name='ftgl'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://downloads.sourceforge.net/project/ftgl/FTGL%20Source/2.1.3~rc5/ftgl-2.1.3-rc5.tar.gz',
+            '5458d62122454869572d39f8aa85745fc05d5518001bcefa63bd6cbb8d26565b',
+            patches='ftgl-support-arm64')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('ftgl.pc.in')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['--with-glut-inc'] = '/dev/null'
+        opts['--with-glut-lib'] = '/dev/null'
+
+        super().configure(state)
+
+
+class GlewTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='glew'):
+        super().__init__(name)
+        self.src_root = 'build/cmake'
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.tgz',
+            'd4fc82893cfb00109578d0a1a2337fb8ca335b3ceccf97b97e5cc7f08e4353e1')
+
+    def configure(self, state: BuildState):
+        state.options['BUILD_UTILS'] = 'NO'
+        super().configure(state)
+
+    LINKER_FLAGS = '-framework OpenGL'
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        def update_linker_flags(line: str):
+            link_var = '  INTERFACE_LINK_LIBRARIES '
+
+            if line.startswith(link_var):
+                return f'{link_var}"{GlewTarget.LINKER_FLAGS}"\n'
+
+            return line
+
+        cmake_module = state.install_path / 'lib/cmake/glew/glew-targets.cmake'
+        self.update_text_file(cmake_module, update_linker_flags)
+
+    @staticmethod
+    def _process_pkg_config(pcfile: Path, line: str) -> str:
+        libs = 'Libs:'
+
+        if line.startswith(libs):
+            return libs + ' -L${libdir} -lGLEW ' + GlewTarget.LINKER_FLAGS + os.linesep
+
+        return line
+
+
+class GlibTarget(base.MesonTarget):
+    def __init__(self, name='glib'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://download.gnome.org/sources/glib/2.72/glib-2.72.3.tar.xz',
+            '4a39a2f624b8512d500d5840173eda7fa85f51c109052eae806acece85d345f0',
+            patches='glib-fix-paths')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('glib.doap')
+
+    def configure(self, state: BuildState):
+        # Additional frameworks are needed for proper detection of libintl
+        ld_key = 'LDFLAGS'
+        ld_value = '-framework CoreFoundation -framework Foundation'
+        env = state.environment
+        env[ld_key] = (env[ld_key] + ' ' + ld_value) if ld_key in env else ld_value
+
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+        self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
+
+    @staticmethod
+    def _process_pkg_config(pcfile: Path, line: str) -> str:
+        return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
+
+
 class GmeTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='gme'):
         super().__init__(name)
@@ -101,6 +258,40 @@ class GmeTarget(base.CMakeStaticDependencyTarget):
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('gme.txt')
+
+
+class HarfBuzzTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='harfbuzz'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/harfbuzz/harfbuzz/archive/refs/tags/2.8.2.tar.gz',
+            '4164f68103e7b52757a732227cfa2a16cfa9984da513843bb4eb7669adc6f220')
+
+    def configure(self, state: BuildState):
+        state.options['HB_HAVE_FREETYPE'] = 'ON'
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        def update_config_cmake(line: str):
+            include_var = '  INTERFACE_INCLUDE_DIRECTORIES '
+            link_var = '  INTERFACE_LINK_LIBRARIES '
+
+            if line.startswith(include_var):
+                return include_var + '"${_IMPORT_PREFIX}/include/harfbuzz"\n'
+            elif line.startswith(link_var):
+                return link_var + '"-framework ApplicationServices"\n'
+
+            return line
+
+        config_path = state.install_path / 'lib/cmake/harfbuzz/harfbuzzConfig.cmake'
+        self.update_text_file(config_path, update_config_cmake)
+
+        self.write_pc_file(state, description='HarfBuzz text shaping library', version='2.8.2', libs='-lharfbuzz',
+                           libs_private='-lc++ -framework CoreFoundation -framework CoreGraphics -framework CoreText')
 
 
 class InstPatchTarget(base.CMakeStaticDependencyTarget):
@@ -199,6 +390,119 @@ class ModPlugTarget(base.ConfigureMakeStaticDependencyTarget):
         return line
 
 
+class MoltenVKTarget(base.MakeTarget):
+    def __init__(self, name='moltenvk'):
+        super().__init__(name)
+
+        # Building for multiple architectures is handled internally
+        self.multi_platform = False
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/KhronosGroup/MoltenVK/archive/refs/tags/v1.3.0.tar.gz',
+            '9476033d49ef02776ebab288fffae3e28fd627a3e29b7ae5975a1e1c785bf912')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('MoltenVKPackaging.xcodeproj')
+
+    def configure(self, state: BuildState):
+        state.options['macos'] = None
+
+        # Unset platform to avoid using specified macOS deployment target and SDK
+        # MoltenVK defines minimal OS version itself, and usually, it requires the very recent SDK
+        state.platform = None
+
+        super().configure(state)
+
+    def build(self, state: BuildState):
+        args = ['./fetchDependencies', '--macos']
+        if state.verbose:
+            args.append('-v')
+        subprocess.run(args, check=True, cwd=state.build_path, env=state.environment)
+
+        super().build(state)
+
+    def post_build(self, state: BuildState):
+        if state.xcode:
+            return
+
+        include_path = state.install_path / 'include'
+        os.makedirs(include_path)
+
+        lib_path = state.install_path / 'lib'
+        os.makedirs(lib_path)
+
+        src_path = state.build_path / 'Package/Latest/MoltenVK'
+        shutil.copytree(src_path / 'include/MoltenVK', include_path / 'MoltenVK')
+        shutil.copy(state.build_path / 'LICENSE', state.install_path / 'apache2.txt')
+        shutil.copy(src_path / 'dynamic/dylib/macOS/libMoltenVK.dylib', lib_path)
+        shutil.copy(
+            src_path / 'static/MoltenVK.xcframework/macos-arm64_x86_64/libMoltenVK.a',
+            lib_path / 'libMoltenVK-static.a')
+
+
+class Mpg123Target(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='mpg123'):
+        super().__init__(name)
+        self.src_root = 'ports/cmake'
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://www.mpg123.de/download/mpg123-1.32.10.tar.bz2',
+            '87b2c17fe0c979d3ef38eeceff6362b35b28ac8589fbf1854b5be75c9ab6557c',
+            patches=('mpg123-have-fpu', 'mpg123-no-syn123'))
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['BUILD_LIBOUT123'] = 'NO'
+        opts['BUILD_PROGRAMS'] = 'NO'
+
+        super().configure(state)
+
+
+class OggTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='ogg'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/xiph/ogg/releases/download/v1.3.5/libogg-1.3.5.tar.xz',
+            'c4d91be36fc8e54deae7575241e03f4211eb102afb3fc0775fbbc1b740016705')
+
+
+class OpusTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='opus'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        # Temporary solution for lack of TLSv1.3 support in Apple Python
+        # The following URL cannot be retrieved using Python 3.9.6 from Xcode 15.x
+        # https://downloads.xiph.org/releases/opus/opus-1.5.1.tar.gz
+        # ssl.SSLError: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:1129)
+        # >>> import ssl; print(ssl.OPENSSL_VERSION, ssl.HAS_TLSv1_3)
+        # LibreSSL 2.8.3 False
+        # TODO: remove this workaround when TLSv1.3 will be available in Python shipped with Xcode
+        state.download_source(
+            'https://ftp.osuosl.org/pub/xiph/releases/opus/opus-1.5.2.tar.gz',
+            '65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1')
+
+    def configure(self, state: BuildState):
+        state.options['PC_BUILD'] = 'floating-point'
+        super().configure(state)
+
+    @staticmethod
+    def _process_pkg_config(pcfile: Path, line: str) -> str:
+        cflags = 'Cflags:'
+        libs = 'Libs:'
+
+        if line.startswith(cflags):
+            return cflags + ' -I${includedir}/opus\n'
+        elif line.startswith(libs):
+            return libs + ' -L${libdir} -lopus\n'
+
+        return line
+
+
 class OpusFileTarget(base.ConfigureMakeStaticDependencyTarget):
     def __init__(self, name='opusfile'):
         super().__init__(name)
@@ -214,6 +518,30 @@ class OpusFileTarget(base.ConfigureMakeStaticDependencyTarget):
     def configure(self, state: BuildState):
         state.options['--enable-http'] = 'no'
         super().configure(state)
+
+
+class PcreTarget(base.ConfigureMakeStaticDependencyTarget):
+    def __init__(self, name='pcre'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2',
+            '4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('pcre.h.in')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['--enable-unicode-properties'] = 'yes'
+        opts['--enable-cpp'] = 'no'
+
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+        self.update_config_script(state.install_path / 'bin/pcre-config')
 
 
 class PngTarget(base.CMakeStaticDependencyTarget):
@@ -354,6 +682,54 @@ class Sdl2NetTarget(base.CMakeStaticDependencyTarget):
                            libs='-lSDL2_net', cflags='-I${includedir}/SDL2')
 
 
+class Sdl2TtfTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='sdl2_ttf'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.15.tar.gz',
+            'a9eceb1ad88c1f1545cd7bd28e7cbc0b2c14191d40238f531a15b01b1b22cd33',
+            patches='sdl2_ttf-fix-cmake')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('SDL2_ttf.pc.in')
+
+    def configure(self, state: BuildState):
+        state.options['VERSION'] = '2.0.15'
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+        shutil.move(state.install_path / 'SDL2_ttf.framework/Resources', state.install_path / 'lib/cmake/SDL2_ttf')
+
+    @staticmethod
+    def _process_pkg_config(pcfile: Path, line: str) -> str:
+        return line + 'Requires.private: freetype2\n' if line.startswith('Requires:') else line
+
+
+class SfmlTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='sfml'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://www.sfml-dev.org/files/SFML-2.5.1-sources.zip',
+            'bf1e0643acb92369b24572b703473af60bac82caf5af61e77c063b779471bb7f',
+            patches='sfml-support-arm64')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['CMAKE_OSX_ARCHITECTURES'] = state.architecture()
+        opts['SFML_USE_SYSTEM_DEPS'] = 'YES'
+        opts['SFML_MISC_INSTALL_PREFIX'] = state.install_path / 'share/SFML'
+        # Use OpenAL Soft instead of Apple's framework
+        opts['OPENAL_INCLUDE_DIR'] = state.include_path / 'AL'
+        opts['OPENAL_LIBRARY'] = state.lib_path / 'libopenal.a'
+
+        super().configure(state)
+
+
 class SodiumTarget(base.ConfigureMakeStaticDependencyTarget):
     def __init__(self, name='sodium'):
         super().__init__(name)
@@ -365,6 +741,16 @@ class SodiumTarget(base.ConfigureMakeStaticDependencyTarget):
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('libsodium.pc.in')
+
+
+class VorbisTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='vorbis'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.7.tar.xz',
+            'b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b')
 
 
 class VulkanHeadersTarget(base.CMakeStaticDependencyTarget):
@@ -465,28 +851,5 @@ class XmpTarget(base.CMakeStaticDependencyTarget):
         opts = state.options
         opts['BUILD_SHARED'] = 'NO'
         opts['LIBXMP_PIC'] = 'YES'
-
-        super().configure(state)
-
-
-class ZlibNgTarget(base.CMakeStaticDependencyTarget):
-    def __init__(self, name='zlib-ng'):
-        super().__init__(name)
-
-    def prepare_source(self, state: BuildState):
-        state.download_source(
-            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.2.4.tar.gz',
-            'a73343c3093e5cdc50d9377997c3815b878fd110bf6511c2c7759f2afb90f5a3')
-
-    def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('zlib-ng.h')
-
-    def configure(self, state: BuildState):
-        opts = state.options
-        opts['WITH_GTEST'] = 'NO'
-        opts['WITH_SANITIZER'] = 'NO'
-        opts['ZLIB_COMPAT'] = 'YES'
-        opts['ZLIB_ENABLE_TESTS'] = 'NO'
-        opts['ZLIBNG_ENABLE_TESTS'] = 'NO'
 
         super().configure(state)
