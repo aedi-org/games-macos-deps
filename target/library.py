@@ -239,10 +239,10 @@ class GlibTarget(base.MesonStaticTarget):
     # def post_build(self, state: BuildState):
     #     super().post_build(state)
     #     self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
-    #
-    # @staticmethod
-    # def _process_pkg_config(pcfile: Path, line: str) -> str:
-    #     return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
+
+    @staticmethod
+    def _process_pkg_config(pcfile: Path, line: str) -> str:
+        return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
 
 
 class GmeTarget(base.CMakeStaticDependencyTarget):
