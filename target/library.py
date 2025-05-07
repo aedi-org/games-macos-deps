@@ -215,35 +215,34 @@ class GlewTarget(base.CMakeStaticDependencyTarget):
         return line
 
 
-class GlibTarget(base.MesonTarget):
+class GlibTarget(base.MesonStaticTarget):
     def __init__(self, name='glib'):
         super().__init__(name)
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://download.gnome.org/sources/glib/2.72/glib-2.72.3.tar.xz',
-            '4a39a2f624b8512d500d5840173eda7fa85f51c109052eae806acece85d345f0',
-            patches='glib-fix-paths')
+            'https://download.gnome.org/sources/glib/2.84/glib-2.84.1.tar.xz',
+            '2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a')
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('glib.doap')
 
     def configure(self, state: BuildState):
-        # Additional frameworks are needed for proper detection of libintl
-        ld_key = 'LDFLAGS'
-        ld_value = '-framework CoreFoundation -framework Foundation'
-        env = state.environment
-        env[ld_key] = (env[ld_key] + ' ' + ld_value) if ld_key in env else ld_value
+        opts = state.options
+        opts['glib_assert'] = 'false'
+        opts['glib_checks'] = 'false'
+        opts['glib_debug'] = 'disabled'
+        opts['tests'] = 'false'
 
         super().configure(state)
 
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
-
-    @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
-        return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
+    # def post_build(self, state: BuildState):
+    #     super().post_build(state)
+    #     self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
+    #
+    # @staticmethod
+    # def _process_pkg_config(pcfile: Path, line: str) -> str:
+    #     return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
 
 
 class GmeTarget(base.CMakeStaticDependencyTarget):
