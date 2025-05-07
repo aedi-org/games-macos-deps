@@ -49,25 +49,6 @@ class DumbTarget(base.CMakeStaticDependencyTarget):
         return 'Libs: -L${libdir} -ldumb\n' if line.startswith('Libs:') else line
 
 
-class FfiTarget(base.ConfigureMakeStaticDependencyTarget):
-    def __init__(self, name='ffi'):
-        super().__init__(name)
-
-    def prepare_source(self, state: BuildState):
-        state.download_source(
-            'https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz',
-            'b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e')
-
-    def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('libffi.pc.in')
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        for header in ('ffi.h', 'ffitarget.h'):
-            self.make_platform_header(state, header)
-
-
 class FlacTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='flac'):
         super().__init__(name)
@@ -518,30 +499,6 @@ class OpusFileTarget(base.ConfigureMakeStaticDependencyTarget):
     def configure(self, state: BuildState):
         state.options['--enable-http'] = 'no'
         super().configure(state)
-
-
-class PcreTarget(base.ConfigureMakeStaticDependencyTarget):
-    def __init__(self, name='pcre'):
-        super().__init__(name)
-
-    def prepare_source(self, state: BuildState):
-        state.download_source(
-            'https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2',
-            '4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8')
-
-    def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('pcre.h.in')
-
-    def configure(self, state: BuildState):
-        opts = state.options
-        opts['--enable-unicode-properties'] = 'yes'
-        opts['--enable-cpp'] = 'no'
-
-        super().configure(state)
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.update_config_script(state.install_path / 'bin/pcre-config')
 
 
 class PngTarget(base.CMakeStaticDependencyTarget):

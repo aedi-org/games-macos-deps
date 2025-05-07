@@ -39,7 +39,6 @@ def targets():
 
         # Libraries
         DumbTarget(),
-        FfiTarget(),
         FlacTarget(),
         FluidSynthTarget(),
         FmtTarget(),
@@ -58,7 +57,6 @@ def targets():
         OggTarget(),
         OpusFileTarget(),
         OpusTarget(),
-        PcreTarget(),
         PngTarget(),
         PortMidiTarget(),
         SamplerateTarget(),
