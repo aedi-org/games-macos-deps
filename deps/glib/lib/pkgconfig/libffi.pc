@@ -1,0 +1,10 @@
+prefix=
+includedir=${prefix}/include
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+Name: ffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.2.9999
+Libs: -L${libdir} -lffi
+Cflags: -I${includedir}
