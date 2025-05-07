@@ -222,7 +222,8 @@ class GlibTarget(base.MesonStaticTarget):
     def prepare_source(self, state: BuildState):
         state.download_source(
             'https://download.gnome.org/sources/glib/2.84/glib-2.84.1.tar.xz',
-            '2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a')
+            '2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a',
+            patches='glib-fix-paths')
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('glib.doap')
