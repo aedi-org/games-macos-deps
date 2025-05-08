@@ -50,6 +50,7 @@ def targets():
         GmeTarget(),
         HarfBuzzTarget(),
         InstPatchTarget(),
+        LameTarget(),
         MadTarget(),
         MikmodTarget(),
         ModPlugTarget(),
