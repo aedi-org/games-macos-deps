@@ -68,6 +68,7 @@ def targets():
         Sdl2Target(),
         Sdl2TtfTarget(),
         SfmlTarget(),
+        SndFileTarget(),
         SodiumTarget(),
         VorbisTarget(),
         VulkanHeadersTarget(),
