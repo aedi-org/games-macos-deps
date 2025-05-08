@@ -57,6 +57,7 @@ def targets():
         OggTarget(),
         OpusFileTarget(),
         OpusTarget(),
+        PcreTarget(),
         PngTarget(),
         PortMidiTarget(),
         SamplerateTarget(),

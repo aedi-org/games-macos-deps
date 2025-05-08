@@ -501,6 +501,30 @@ class OpusFileTarget(base.ConfigureMakeStaticDependencyTarget):
         super().configure(state)
 
 
+class PcreTarget(base.ConfigureMakeStaticDependencyTarget):
+    def __init__(self, name='pcre'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2',
+            '4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('pcre.h.in')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['--enable-unicode-properties'] = 'yes'
+        opts['--enable-cpp'] = 'no'
+
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+        self.update_config_script(state.install_path / 'bin/pcre-config')
+
+
 class PngTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='png'):
         super().__init__(name)
