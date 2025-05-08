@@ -18,6 +18,7 @@
 /glib/lib/libgmodule-2.0.a
 /glib/lib/pkgconfig/gio-*.pc
 /glib/lib/pkgconfig/gmodule-*.pc
+/lame/bin/
 /mpg123/lib/pkgconfig/libsyn123.pc
 /opusfile/lib/libopusurl.a
 /opusfile/lib/pkgconfig/opusurl.pc
