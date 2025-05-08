@@ -215,7 +215,7 @@ class GlewTarget(base.CMakeStaticDependencyTarget):
         return line
 
 
-class GlibTarget(base.MesonTarget):
+class GlibTarget(base.MesonStaticTarget):
     def __init__(self, name='glib'):
         super().__init__(name)
 
