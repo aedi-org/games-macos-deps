@@ -20,6 +20,10 @@
 /mpg123/lib/pkgconfig/libsyn123.pc
 /opusfile/lib/libopusurl.a
 /opusfile/lib/pkgconfig/opusurl.pc
+/pcre/bin/pcregrep
+/pcre/bin/pcretest
+/pcre/lib/pkgconfig/libpcreposix.pc
+/pcre/lib/libpcreposix.a
 /samplerate/bin/
 /sdl2/include/SDL2/SDL_config_*.h
 /sdl2/include/SDL2/SDL_copying.h
