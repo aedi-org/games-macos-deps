@@ -872,3 +872,26 @@ class XmpTarget(base.CMakeStaticDependencyTarget):
         opts['LIBXMP_PIC'] = 'YES'
 
         super().configure(state)
+
+
+class ZlibNgTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self, name='zlib-ng'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.2.4.tar.gz',
+            'a73343c3093e5cdc50d9377997c3815b878fd110bf6511c2c7759f2afb90f5a3')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('zlib-ng.h')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['WITH_GTEST'] = 'NO'
+        opts['WITH_SANITIZER'] = 'NO'
+        opts['ZLIB_COMPAT'] = 'YES'
+        opts['ZLIB_ENABLE_TESTS'] = 'NO'
+        opts['ZLIBNG_ENABLE_TESTS'] = 'NO'
+
+        super().configure(state)

@@ -76,6 +76,7 @@ def targets():
         WavPackTarget(),
         WebpTarget(),
         XmpTarget(),
+        ZlibNgTarget(),
 
         # Tools
         DosBoxXTarget(),
