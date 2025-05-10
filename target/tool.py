@@ -56,8 +56,8 @@ class DzipTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/kugelrund/dzip/archive/refs/tags/v3.1.tar.gz',
-            '9f057e35ef5ddda1a0911b8f877a41b2934669377cb053b45364ddb72716b520')
+            'https://github.com/kugelrund/dzip/archive/refs/tags/v3.2.tar.gz',
+            '7f7b80c3393232735a57cde0243e00923bbc16ea07daaa308e0ce1e3641bb93a')
 
 
 class EricWToolsTarget(base.CMakeStaticDependencyTarget):
