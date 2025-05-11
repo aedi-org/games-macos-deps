@@ -3,20 +3,18 @@
 
 /flac/include/FLAC++/
 /fluidsynth/bin/
-/glib/bin/gdbus*
-/glib/bin/glib-gettextize
-/glib/bin/gio*
-/glib/bin/glib-compile*
-/glib/bin/gobject*
-/glib/bin/gresource
-/glib/bin/gsettings
-/glib/bin/gtester*
+/glib/bin/*
+!/glib/bin/glib-genmarshal
+!/glib/bin/glib-mkenums
 /glib/include/gio-unix-2.0/
 /glib/include/glib-2.0/gio/
-/glib/include/glib-2.0/gmodule.h
+/glib/include/glib-2.0/girepository/
+/glib/include/glib-2.0/gmodule*
 /glib/lib/libgio-2.0.a
+/glib/lib/libgirepository-2.0.a
 /glib/lib/libgmodule-2.0.a
 /glib/lib/pkgconfig/gio-*.pc
+/glib/lib/pkgconfig/girepository-2.0.pc
 /glib/lib/pkgconfig/gmodule-*.pc
 /lame/bin/
 /mpg123/lib/pkgconfig/libsyn123.pc
