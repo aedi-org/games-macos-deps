@@ -49,25 +49,6 @@ class DumbTarget(base.CMakeStaticDependencyTarget):
         return 'Libs: -L${libdir} -ldumb\n' if line.startswith('Libs:') else line
 
 
-class FfiTarget(base.ConfigureMakeStaticDependencyTarget):
-    def __init__(self, name='ffi'):
-        super().__init__(name)
-
-    def prepare_source(self, state: BuildState):
-        state.download_source(
-            'https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz',
-            'b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e')
-
-    def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('libffi.pc.in')
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        for header in ('ffi.h', 'ffitarget.h'):
-            self.make_platform_header(state, header)
-
-
 class FlacTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='flac'):
         super().__init__(name)

@@ -39,7 +39,6 @@ def targets():
 
         # Libraries
         DumbTarget(),
-        FfiTarget(),
         FlacTarget(),
         FluidSynthTarget(),
         FmtTarget(),
