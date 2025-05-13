@@ -273,6 +273,7 @@ class GmeTarget(base.CMakeStaticDependencyTarget):
         state.options['GME_BUILD_EXAMPLES'] = 'NO'
         super().configure(state)
 
+
 class HarfBuzzTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='harfbuzz'):
         super().__init__(name)
