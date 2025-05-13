@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 -i
 #
-# Copyright 2013-2024 The Khronos Group Inc.
+# Copyright 2013-2025 The Khronos Group Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -28,6 +28,7 @@ SPECIAL_WORDS = set((
     'ASTC',  # VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT
     'D3D12',  # VkD3D12FenceSubmitInfoKHR
     'Float16',  # VkPhysicalDeviceShaderFloat16Int8FeaturesKHR
+    'Bfloat16',  # VkPhysicalDeviceShaderBfloat16FeaturesKHR
     'ImagePipe',  # VkImagePipeSurfaceCreateInfoFUCHSIA
     'Int64',  # VkPhysicalDeviceShaderAtomicInt64FeaturesKHR
     'Int8',  # VkPhysicalDeviceShaderFloat16Int8FeaturesKHR
@@ -38,7 +39,7 @@ SPECIAL_WORDS = set((
 ))
 # A regex to match any of the SPECIAL_WORDS
 EXCEPTION_PATTERN = r'(?P<exception>{})'.format(
-    '|'.join('(%s)' % re.escape(w) for w in SPECIAL_WORDS))
+    '|'.join(f'({re.escape(w)})' for w in SPECIAL_WORDS))
 MAIN_RE = re.compile(
     # the negative lookahead is to prevent the all-caps pattern from being too greedy.
     r'({}|([0-9]+)|([A-Z][a-z]+)|([A-Z][A-Z]*(?![a-z])))'.format(EXCEPTION_PATTERN))
@@ -185,7 +186,7 @@ class VulkanConventions(ConventionsBase):
         For Vulkan, these are names with a case-insensitive 'vk' prefix, or
         a 'PFN_vk' function pointer type prefix.
         """
-        return name[0:2].lower() == 'vk' or name[0:6] == 'PFN_vk'
+        return name[0:2].lower() == 'vk' or name.startswith('PFN_vk')
 
     def specURL(self, spectype='api'):
         """Return public registry URL which ref pages should link to for the
@@ -194,7 +195,7 @@ class VulkanConventions(ConventionsBase):
            instead. N.b. this may need to change on a per-refpage basis if
            there are multiple documents involved.
         """
-        return 'https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html'
+        return 'https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html'
 
     @property
     def xml_api_name(self):
