@@ -38,6 +38,7 @@ def targets():
         QuakespasmExpTarget(),
 
         # Libraries
+        Bzip2Target(),
         DumbTarget(),
         FlacTarget(),
         FluidSynthTarget(),

@@ -25,6 +25,38 @@ import aedi.target.base as base
 from aedi.state import BuildState
 
 
+class Bzip2Target(base.MakeTarget):
+    def __init__(self, name='bzip2'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz',
+            'ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('bzlib.h')
+
+    def configure(self, state: BuildState):
+        super().configure(state)
+
+        opts = state.options
+        # Add explicit targets in order to skip testing step that is incompatible with cross-compilation
+        opts['bzip2'] = None
+        opts['bzip2recover'] = None
+        # Copy compiler flags from environment to command line argument, they would be overridden by Makefile otherwise
+        cflags = 'CFLAGS'
+        opts[cflags] = state.environment[cflags] + ' -D_FILE_OFFSET_BITS=64 -O2'
+
+    def post_build(self, state: BuildState):
+        opts = state.options
+        opts['install'] = None
+        opts['PREFIX'] = state.install_path
+
+        self.install(state, state.options)
+        self.write_pc_file(state, description='bzip2 compression library', version='1.0.8', libs='-lbz2')
+
+
 class DumbTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='dumb'):
         super().__init__(name)
