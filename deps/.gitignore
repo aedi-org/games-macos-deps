@@ -1,6 +1,8 @@
 /*/share
 /**/*.la
 
+/bzip2/bin/
+/bzip2/man/
 /flac/include/FLAC++/
 /fluidsynth/bin/
 /glib/bin/*
