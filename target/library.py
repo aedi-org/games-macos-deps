@@ -80,6 +80,7 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
     def configure(self, state: BuildState):
         opts = state.options
+        opts['CMAKE_EXE_LINKER_FLAGS'] += state.run_pkg_config('--libs', 'sndfile')
         opts['DEFAULT_SOUNDFONT'] = 'default.sf2'
         opts['enable-framework'] = 'NO'
         opts['enable-readline'] = 'NO'
