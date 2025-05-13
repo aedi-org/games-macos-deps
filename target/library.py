@@ -99,8 +99,8 @@ class FmtTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/fmtlib/fmt/archive/refs/tags/8.1.1.tar.gz',
-            '3d794d3cf67633b34b2771eb9f073bde87e846e0d395d254df7b211ef1ec7346')
+            'https://github.com/fmtlib/fmt/releases/download/11.2.0/fmt-11.2.0.zip',
+            '203eb4e8aa0d746c62d8f903df58e0419e3751591bb53ff971096eaa0ebd4ec3')
 
     def configure(self, state: BuildState):
         opts = state.options
