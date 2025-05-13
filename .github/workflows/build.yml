@@ -22,7 +22,6 @@ jobs:
         target:
           - PrBoom-Plus
           - quakespasm-exp
-          - DevilutionX
 
     steps:
       - uses: actions/checkout@v4
