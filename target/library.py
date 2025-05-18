@@ -234,12 +234,12 @@ class GmeTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/libgme/game-music-emu/archive/refs/tags/0.6.3.tar.gz',
-            '4c5a7614acaea44e5cb1423817d2889deb82674ddbc4e3e1291614304b86fca0',
-            patches='gme-no-ubsan')
+            'https://github.com/libgme/game-music-emu/archive/refs/tags/0.6.4.tar.gz',
+            'f2360feb5a32ace226c583df4faf6eff74145c81264aaea11e17a1af2f6f101a')
 
-    def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('gme.txt')
+    def configure(self, state: BuildState):
+        state.options['GME_BUILD_EXAMPLES'] = 'NO'
+        super().configure(state)
 
 
 class HarfBuzzTarget(base.CMakeStaticDependencyTarget):
