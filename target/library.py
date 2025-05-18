@@ -750,8 +750,8 @@ class SodiumTarget(base.ConfigureMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz',
-            '6f504490b342a4f8a4c4a02fc9b866cbef8622d5df4e5452b46be121e46636c1')
+            'https://github.com/jedisct1/libsodium/releases/download/1.0.20-RELEASE/libsodium-1.0.20.tar.gz',
+            'ebb65ef6ca439333c2bb41a0c1990587288da07f6c7fd07cb3a18cc18d30ce19')
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('libsodium.pc.in')
