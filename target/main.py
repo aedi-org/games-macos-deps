@@ -145,12 +145,8 @@ class DevilutionXTarget(CMakeMainTarget):
         state.checkout_git('https://github.com/diasurgical/devilutionX.git')
 
     def configure(self, state: BuildState):
-        state.options['CMAKE_EXE_LINKER_FLAGS'] += state.run_pkg_config('--libs', 'SDL2_mixer', 'SDL2_ttf')
+        state.options['BUILD_TESTING'] = 'NO'
         super().configure(state)
-
-        # Remove version file that is included erroneously because of case-insensitive file system
-        version_file = state.build_path / '_deps/libzt-src/ext/ZeroTierOne/ext/miniupnpc/VERSION'
-        version_file.unlink(missing_ok=True)
 
 
 class EDuke32Target(MakeMainTarget):
