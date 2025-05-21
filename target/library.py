@@ -314,14 +314,12 @@ class InstPatchTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/swami/libinstpatch/archive/v1.1.6.tar.gz',
-            '8e9861b04ede275d712242664dab6ffa9166c7940fea3b017638681d25e10299')
+            'https://github.com/swami/libinstpatch/archive/refs/tags/v1.1.7.tar.gz',
+            'b388ab6f843559fc2da94837c37dfd4cf5973cf7cc2a0ce3cb33260b81377e9f')
 
     def configure(self, state: BuildState):
-        state.options['LIB_SUFFIX'] = None
-
-        # Workaround for missing frameworks in dependencies, no clue what's wrong at the moment
-        state.environment['LDFLAGS'] = '-framework CoreFoundation -framework Foundation'
+        # Workaround for riff_dump link errors
+        state.options['CMAKE_EXE_LINKER_FLAGS'] = '-framework Foundation'
 
         super().configure(state)
 
