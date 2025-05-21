@@ -13,9 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA or on the web at http://www.gnu.org.
+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 #ifndef __IPATCH_SAMPLE_STORE_SND_FILE_H__
 #define __IPATCH_SAMPLE_STORE_SND_FILE_H__
@@ -23,8 +21,6 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <libinstpatch/IpatchSampleStore.h>
-
-#include <sndfile.h>
 
 /* forward type declarations */
 

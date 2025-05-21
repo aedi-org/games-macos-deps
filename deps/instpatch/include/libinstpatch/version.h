@@ -15,9 +15,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA or on the web at http://www.gnu.org.
+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 #ifndef __IPATCH_VERSION_H__
 #define __IPATCH_VERSION_H__
@@ -26,7 +24,7 @@
  * IPATCH_VERSION: (skip)
  * libInstPatch version static string.
  */
-#define IPATCH_VERSION       "1.1.6"
+#define IPATCH_VERSION       "1.1.7"
 
 /**
  * IPATCH_VERSION_MAJOR: (skip)
@@ -44,7 +42,7 @@
  * IPATCH_VERSION_MICRO: (skip)
  * libInstPatch micro version integer.
  */
-#define IPATCH_VERSION_MICRO 6
+#define IPATCH_VERSION_MICRO 7
 
 void ipatch_version (guint *major, guint *minor, guint *micro);
 

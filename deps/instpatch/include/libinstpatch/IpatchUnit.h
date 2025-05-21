@@ -13,9 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA or on the web at http://www.gnu.org.
+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
  */
 #ifndef __IPATCH_UNIT_H__
 #define __IPATCH_UNIT_H__
@@ -87,7 +85,8 @@ typedef enum
     IPATCH_UNIT_TYPE_SF2_OFS_TIME = 163,
     IPATCH_UNIT_TYPE_CENTIBELS = 164,
     IPATCH_UNIT_TYPE_32K_SAMPLES = 165,
-    IPATCH_UNIT_TYPE_TENTH_PERCENT = 166
+    IPATCH_UNIT_TYPE_TENTH_PERCENT = 166,
+    IPATCH_UNIT_TYPE_SF2_ATTENUATION = 167
 } IpatchUnitType;
 
 /*
