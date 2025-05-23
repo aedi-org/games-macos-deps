@@ -555,10 +555,6 @@ class PcreTarget(base.ConfigureMakeStaticDependencyTarget):
 
         super().configure(state)
 
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.update_config_script(state.install_path / 'bin/pcre-config')
-
 
 class PngTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='png'):
