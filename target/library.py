@@ -572,10 +572,6 @@ class PngTarget(base.CMakeStaticDependencyTarget):
 
         super().configure(state)
 
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.update_config_script(state.install_path / 'bin/libpng16-config')
-
 
 class PortMidiTarget(base.CMakeTarget):
     def __init__(self, name='portmidi'):
