@@ -383,15 +383,6 @@ class MikmodTarget(base.CMakeStaticDependencyTarget):
 
         super().configure(state)
 
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        def fix_path(_, line):
-            return line.replace(str(state.install_path), '${exec_prefix}') \
-                if line.startswith('\t\techo -L') else line
-
-        self.update_config_script(state.install_path / 'bin/libmikmod-config', fix_path)
-
 
 class ModPlugTarget(base.ConfigureMakeStaticDependencyTarget):
     def __init__(self, name='modplug'):
@@ -564,10 +555,6 @@ class PcreTarget(base.ConfigureMakeStaticDependencyTarget):
 
         super().configure(state)
 
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.update_config_script(state.install_path / 'bin/pcre-config')
-
 
 class PngTarget(base.CMakeStaticDependencyTarget):
     def __init__(self, name='png'):
@@ -584,10 +571,6 @@ class PngTarget(base.CMakeStaticDependencyTarget):
         opts['PNG_SHARED'] = 'NO'
 
         super().configure(state)
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-        self.update_config_script(state.install_path / 'bin/libpng16-config')
 
 
 class PortMidiTarget(base.CMakeTarget):
