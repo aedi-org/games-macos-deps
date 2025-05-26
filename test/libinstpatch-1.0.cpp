@@ -1,4 +1,8 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-W#pragma-messages"
 #include <libinstpatch/libinstpatch.h>
+#pragma clang diagnostic pop
 
 int main()
 {
