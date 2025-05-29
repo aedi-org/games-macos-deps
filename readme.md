@@ -2,9 +2,9 @@
 
 This repository contains binary dependencies required to build various game source ports and related tools on macOS.
 
-[![Build Targets](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/build.yml/badge.svg)](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/build.yml)
-[![Lint Code](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/lint.yml/badge.svg)](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/lint.yml)
-[![Test Libraries](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/test.yml/badge.svg)](https://github.com/ZDoom/zdoom-macos-deps/actions/workflows/test.yml)
+[![Build Targets](https://github.com/aedi-org/games-macos-deps/actions/workflows/build.yml/badge.svg)](https://github.com/aedi-org/games-macos-deps/actions/workflows/build.yml)
+[![Lint Code](https://github.com/aedi-org/games-macos-deps/actions/workflows/lint.yml/badge.svg)](https://github.com/aedi-org/games-macos-deps/actions/workflows/lint.yml)
+[![Test Libraries](https://github.com/aedi-org/games-macos-deps/actions/workflows/test.yml/badge.svg)](https://github.com/aedi-org/games-macos-deps/actions/workflows/test.yml)
 
 ## Usage
 
