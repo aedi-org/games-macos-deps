@@ -36,6 +36,7 @@ def targets():
         NBloodTarget(),
         QuakespasmTarget(),
         QuakespasmExpTarget(),
+        Q2ProTarget(),
 
         # Libraries
         Bzip2Target(),

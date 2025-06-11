@@ -20,7 +20,7 @@ import shutil
 from platform import machine
 
 from aedi.state import BuildState
-from aedi.target.base import CMakeMainTarget, MakeMainTarget
+from aedi.target.base import CMakeMainTarget, MakeMainTarget, MesonStaticTarget
 
 
 class PrBoomPlusTarget(CMakeMainTarget):
@@ -230,5 +230,24 @@ class QuakespasmExpTarget(CMakeMainTarget):
             if state.architecture() != machine():
                 opts['MakeQuakePak_DIR'] = state.native_build_path
                 opts['EntFixesGenerator_DIR'] = state.native_build_path
+
+        super().configure(state)
+
+
+class Q2ProTarget(MesonStaticTarget):
+    def __init__(self, name='q2pro'):
+        super().__init__(name)
+
+    def prepare_source(self, state: BuildState):
+        state.checkout_git('https://github.com/skullernet/q2pro.git')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('man/q2pro.6.txt')
+
+    def configure(self, state: BuildState):
+        option = state.options
+        option['libcurl'] = 'disabled'
+        option['openal'] = 'disabled'  # TODO
+        option['system-wide'] = 'false'
 
         super().configure(state)
