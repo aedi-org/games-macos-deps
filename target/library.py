@@ -20,8 +20,8 @@ import os
 import shutil
 import subprocess
 
-import aedi.target.base as base
 from aedi.state import BuildState
+from aedi.target import base
 
 
 class Bzip2Target(base.MakeTarget):
