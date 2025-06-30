@@ -57,9 +57,6 @@ class DsdaDoom(PrBoomPlusTarget):
 
 
 class ChocolateDoomBaseTarget(CMakeMainTarget):
-    def __init__(self, name=None):
-        super().__init__(name)
-
     def configure(self, state: BuildState):
         state.options['CMAKE_EXE_LINKER_FLAGS'] += state.run_pkg_config('--libs', 'SDL2_mixer')
         super().configure(state)
@@ -78,8 +75,8 @@ class ChocolateDoomBaseTarget(CMakeMainTarget):
 
 
 class ChocolateDoomTarget(ChocolateDoomBaseTarget):
-    def __init__(self, name='chocolate-doom'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('chocolate-doom')
         self._fill_outputs('chocolate')
 
     def prepare_source(self, state: BuildState):
@@ -87,8 +84,8 @@ class ChocolateDoomTarget(ChocolateDoomBaseTarget):
 
 
 class CrispyDoomTarget(ChocolateDoomBaseTarget):
-    def __init__(self, name='crispy-doom'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('crispy-doom')
         self._fill_outputs('crispy')
 
     def prepare_source(self, state: BuildState):
@@ -96,8 +93,8 @@ class CrispyDoomTarget(ChocolateDoomBaseTarget):
 
 
 class RudeTarget(ChocolateDoomBaseTarget):
-    def __init__(self, name='rude'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('rude')
         self._fill_outputs('rude')
 
     def prepare_source(self, state: BuildState):
@@ -109,8 +106,8 @@ class RudeTarget(ChocolateDoomBaseTarget):
 
 
 class WoofTarget(ChocolateDoomBaseTarget):
-    def __init__(self, name='woof'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('woof')
         self.outputs = ('Source/woof',)
 
     def prepare_source(self, state: BuildState):
@@ -118,16 +115,16 @@ class WoofTarget(ChocolateDoomBaseTarget):
 
 
 class DoomRetroTarget(CMakeMainTarget):
-    def __init__(self, name='doomretro'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('doomretro')
 
     def prepare_source(self, state: BuildState):
         state.checkout_git('https://github.com/bradharding/doomretro.git')
 
 
 class Doom64EXTarget(CMakeMainTarget):
-    def __init__(self, name='doom64ex'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('doom64ex')
 
     def prepare_source(self, state: BuildState):
         state.checkout_git('https://github.com/svkaiser/Doom64EX.git')
@@ -141,8 +138,8 @@ class Doom64EXTarget(CMakeMainTarget):
 
 
 class DevilutionXTarget(CMakeMainTarget):
-    def __init__(self, name='devilutionx'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('devilutionx')
 
     def prepare_source(self, state: BuildState):
         state.checkout_git('https://github.com/diasurgical/devilutionX.git')
@@ -186,8 +183,8 @@ class NBloodTarget(EDuke32Target):
 
 
 class QuakespasmTarget(MakeMainTarget):
-    def __init__(self, name='quakespasm'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('quakespasm')
         self.src_root = 'Quake'
 
     def prepare_source(self, state: BuildState):
@@ -211,8 +208,8 @@ class QuakespasmTarget(MakeMainTarget):
 
 
 class QuakespasmExpTarget(CMakeMainTarget):
-    def __init__(self, name='quakespasm-exp'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('quakespasm-exp')
         self.outputs = (self.name, 'quakespasm-exp.pak')
 
     def prepare_source(self, state: BuildState):
@@ -238,8 +235,8 @@ class QuakespasmExpTarget(CMakeMainTarget):
 
 
 class Q2ProTarget(MesonStaticTarget):
-    def __init__(self, name='q2pro'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('q2pro')
 
     def prepare_source(self, state: BuildState):
         state.checkout_git('https://github.com/skullernet/q2pro.git')

@@ -25,8 +25,8 @@ from aedi.state import BuildState
 class DosBoxXTarget(base.ConfigureMakeDependencyTarget):
     # Depends on autoconf, automake, freetype
     # TODO: fix absolute paths in bin/* and share/autoconf/autom4te.cfg
-    def __init__(self, name='dosbox-x'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('dosbox-x')
 
     def prepare_source(self, state: BuildState):
         state.download_source(
@@ -51,8 +51,8 @@ class DosBoxXTarget(base.ConfigureMakeDependencyTarget):
 
 
 class DzipTarget(base.CMakeStaticDependencyTarget):
-    def __init__(self, name='dzip'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('dzip')
 
     def prepare_source(self, state: BuildState):
         state.download_source(
@@ -61,8 +61,8 @@ class DzipTarget(base.CMakeStaticDependencyTarget):
 
 
 class EricWToolsTarget(base.CMakeStaticDependencyTarget):
-    def __init__(self, name='ericw-tools'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('ericw-tools')
 
     def prepare_source(self, state: BuildState):
         state.download_source(
@@ -72,8 +72,8 @@ class EricWToolsTarget(base.CMakeStaticDependencyTarget):
 
 
 class GlslangTarget(base.CMakeSharedDependencyTarget):
-    def __init__(self, name='glslang'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('glslang')
 
     def prepare_source(self, state: BuildState):
         state.download_source(
@@ -92,8 +92,8 @@ class GlslangTarget(base.CMakeSharedDependencyTarget):
 
 
 class QPakManTarget(base.CMakeTarget):
-    def __init__(self, name='qpakman'):
-        super().__init__(name)
+    def __init__(self):
+        super().__init__('qpakman')
 
     def prepare_source(self, state: BuildState):
         state.download_source(
