@@ -19,7 +19,6 @@
 import os
 import shutil
 import subprocess
-from pathlib import Path
 
 import aedi.target.base as base
 from aedi.state import BuildState
@@ -77,7 +76,7 @@ class DumbTarget(base.CMakeStaticDependencyTarget):
         super().configure(state)
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         return 'Libs: -L${libdir} -ldumb\n' if line.startswith('Libs:') else line
 
 
@@ -220,7 +219,7 @@ class GlewTarget(base.CMakeStaticDependencyTarget):
         self.update_text_file(cmake_module, update_linker_flags)
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         libs = 'Libs:'
 
         if line.startswith(libs):
@@ -256,7 +255,7 @@ class GlibTarget(base.MesonStaticTarget):
         self.make_platform_header(state, '../lib/glib-2.0/include/glibconfig.h')
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         return 'exec_prefix=${prefix}\n' + line if line.startswith('libdir=') else line
 
 
@@ -397,7 +396,7 @@ class ModPlugTarget(base.ConfigureMakeStaticDependencyTarget):
         return state.has_source_file('libmodplug.pc.in')
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         libs_private = 'Libs.private:'
 
         if line.startswith(libs_private):
@@ -507,7 +506,7 @@ class OpusTarget(base.CMakeStaticDependencyTarget):
         super().configure(state)
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         cflags = 'Cflags:'
         libs = 'Libs:'
 
@@ -712,7 +711,7 @@ class Sdl2TtfTarget(base.CMakeStaticDependencyTarget):
         shutil.move(state.install_path / 'SDL2_ttf.framework/Resources', state.install_path / 'lib/cmake/SDL2_ttf')
 
     @staticmethod
-    def _process_pkg_config(pcfile: Path, line: str) -> str:
+    def _process_pkg_config(_, line: str) -> str:
         return line + 'Requires.private: freetype2\n' if line.startswith('Requires:') else line
 
 
