@@ -21,6 +21,7 @@ from platform import machine
 
 from aedi.state import BuildState
 from aedi.target.base import CMakeMainTarget, MakeMainTarget, MesonStaticTarget
+from aedi.utility import apply_unified_diff
 
 
 class PrBoomPlusTarget(CMakeMainTarget):
@@ -33,6 +34,8 @@ class PrBoomPlusTarget(CMakeMainTarget):
         state.checkout_git('https://github.com/coelckers/prboom-plus.git')
 
     def configure(self, state: BuildState):
+        apply_unified_diff(state.patch_path / 'prboom-plus-fix-xcode-15.diff', state.source)
+
         opts = state.options
         opts['CMAKE_C_FLAGS'] = '-D_FILE_OFFSET_BITS=64'
         opts['CMAKE_EXE_LINKER_FLAGS'] += state.run_pkg_config('--libs', 'SDL2_mixer', 'SDL2_image')
