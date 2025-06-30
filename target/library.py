@@ -295,7 +295,7 @@ class HarfBuzzTarget(base.CMakeStaticDependencyTarget):
 
             if line.startswith(include_var):
                 return include_var + '"${_IMPORT_PREFIX}/include/harfbuzz"\n'
-            elif line.startswith(link_var):
+            if line.startswith(link_var):
                 return link_var + '"-framework ApplicationServices"\n'
 
             return line
@@ -512,7 +512,7 @@ class OpusTarget(base.CMakeStaticDependencyTarget):
 
         if line.startswith(cflags):
             return cflags + ' -I${includedir}/opus\n'
-        elif line.startswith(libs):
+        if line.startswith(libs):
             return libs + ' -L${libdir} -lopus\n'
 
         return line
