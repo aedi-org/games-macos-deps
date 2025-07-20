@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 import subprocess
 
 from aedi.state import BuildState
@@ -89,6 +90,31 @@ class GlslangTarget(base.CMakeSharedDependencyTarget):
         opts['SPIRV_TOOLS_BUILD_STATIC'] = 'NO'
 
         super().configure(state)
+
+
+class OptiPngTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self):
+        super().__init__('optipng')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://sourceforge.net/projects/optipng/files/OptiPNG/optipng-7.9.1/optipng-7.9.1.tar.gz',
+            'c2579be58c2c66dae9d63154edcb3d427fef64cb00ec0aff079c9d156ec46f29')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['MINITIFF_BUILD_TESTS'] = 'NO'
+        opts['GIFREAD_BUILD_TESTS'] = 'NO'
+        opts['OPTIPNG_BUILD_TESTS'] = 'NO'
+        opts['OPTIPNG_USE_SYSTEM_LIBS'] = 'YES'
+
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        # Executable permissions were lost during install phase
+        os.chmod(state.install_path / 'bin/optipng', 0o757)
 
 
 class QPakManTarget(base.CMakeTarget):
