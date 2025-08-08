@@ -1,6 +1,7 @@
 prefix=
 exec_prefix=${prefix}
 symbol_prefix=
+bindir=${exec_prefix}/bin
 libdir=${exec_prefix}/lib
 sharedlibdir=${libdir}
 includedir=${prefix}/include
