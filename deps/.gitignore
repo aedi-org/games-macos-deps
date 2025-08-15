@@ -18,6 +18,7 @@
 /glib/lib/pkgconfig/gio-*.pc
 /glib/lib/pkgconfig/girepository-2.0.pc
 /glib/lib/pkgconfig/gmodule-*.pc
+/jpeg-turbo/bin/
 /lame/bin/
 /moltenvk/lib/libMoltenVK.dylib
 /mpg123/lib/pkgconfig/libsyn123.pc
