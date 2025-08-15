@@ -332,6 +332,23 @@ class InstPatchTarget(base.CMakeStaticDependencyTarget):
         shutil.move(str(include_subpath), include_path)
 
 
+class JpegTurboTarget(base.CMakeDependencyTarget):
+    def __init__(self):
+        super().__init__('jpeg-turbo')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.1.1/libjpeg-turbo-3.1.1.tar.gz',
+            'aadc97ea91f6ef078b0ae3a62bba69e008d9a7db19b34e4ac973b19b71b4217c')
+
+    def configure(self, state: BuildState):
+        opts = state.options
+        opts['ENABLE_STATIC'] = 'NO'
+        opts['WITH_TURBOJPEG'] = 'NO'
+
+        super().configure(state)
+
+
 class LameTarget(base.ConfigureMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('lame')

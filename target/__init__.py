@@ -51,6 +51,7 @@ def targets():
         GmeTarget(),
         HarfBuzzTarget(),
         InstPatchTarget(),
+        JpegTurboTarget(),
         LameTarget(),
         MadTarget(),
         MikmodTarget(),
