@@ -92,6 +92,23 @@ class GlslangTarget(base.CMakeSharedDependencyTarget):
         super().configure(state)
 
 
+class JpegoptimTarget(base.CMakeTarget):
+    def __init__(self):
+        super().__init__('jpegoptim')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/tjko/jpegoptim/archive/refs/tags/v1.5.5.tar.gz',
+            '90a309d1c092de358bb411d702281ac3039b489d03adb0bc3c4ef04cf0067d38')
+
+    def configure(self, state: BuildState):
+        state.options['USE_MOZJPEG'] = 'NO'
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        self.copy_to_bin(state)
+
+
 class OptiPngTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('optipng')

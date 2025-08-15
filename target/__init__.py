@@ -86,6 +86,7 @@ def targets():
         DzipTarget(),
         EricWToolsTarget(),
         GlslangTarget(),
+        JpegoptimTarget(),
         OptiPngTarget(),
         QPakManTarget(),
     )
