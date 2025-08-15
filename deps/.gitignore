@@ -35,3 +35,9 @@
 /sndfile/include/sndfile.hh
 !/vulkan-headers/share
 /vulkan-loader/loader/
+
+# Tools
+/yasm/bin/vsyasm
+/yasm/bin/ytasm
+/yasm/include/
+/yasm/lib/
