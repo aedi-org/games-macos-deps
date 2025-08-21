@@ -860,10 +860,7 @@ class VulkanLoaderTarget(base.CMakeStaticDependencyTarget):
             '0c2436993597f5bd0ee420b6b27632758ed3ab439043d251795fd13d4e70a2f3')
 
     def configure(self, state: BuildState):
-        opts = state.options
-        opts['APPLE_STATIC_LOADER'] = 'YES'
-        opts['CMAKE_INSTALL_SYSCONFDIR'] = '/usr/local/etc'
-
+        state.options['APPLE_STATIC_LOADER'] = 'YES'
         super().configure(state)
 
     def post_build(self, state: BuildState):
