@@ -845,8 +845,8 @@ class VulkanHeadersTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.4.313.tar.gz',
-            'f3298b8dc620530493296759858a69b622f98ececa0e8c75488ad2000778148f')
+            'https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.4.325.tar.gz',
+            '5743da4e203456ef0a0d17950d448b4f70e93a19abdc547aa33c15482b4fec17')
 
 
 class VulkanLoaderTarget(base.CMakeStaticDependencyTarget):
