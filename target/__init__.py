@@ -37,6 +37,7 @@ def targets():
         QuakespasmTarget(),
         QuakespasmExpTarget(),
         Q2ProTarget(),
+        VkQuakeTarget(),
 
         # Libraries
         Bzip2Target(),

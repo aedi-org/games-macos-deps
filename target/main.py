@@ -251,3 +251,29 @@ class Q2ProTarget(MesonStaticTarget):
         option['system-wide'] = 'false'
 
         super().configure(state)
+
+
+class VkQuakeTarget(MesonStaticTarget):
+    # TODO: Improve packaging
+    #   Put executable and MoltenVK library into the same directory
+    #   At the moment, automated rpath fixing prevents this
+
+    def __init__(self):
+        super().__init__('vkquake')
+
+        self.destination = self.DESTINATION_OUTPUT
+        self.outputs = ()
+        self.prerequisites = 'vulkan-headers'
+
+    def prepare_source(self, state: BuildState):
+        state.checkout_git('https://github.com/Novum/vkQuake.git')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('Quake/vkquake.pak')
+
+    def post_build(self, state: BuildState):
+        self.copy_to_bin(state, self.name)
+
+        lib_path = state.install_path / 'lib'
+        lib_path.mkdir(parents=True)
+        shutil.copy(state.lib_path / 'libMoltenVK.dylib', lib_path)
