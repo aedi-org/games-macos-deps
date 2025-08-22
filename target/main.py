@@ -271,9 +271,22 @@ class VkQuakeTarget(MesonStaticTarget):
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('Quake/vkquake.pak')
 
-    def post_build(self, state: BuildState):
-        self.copy_to_bin(state, self.name)
+    def configure(self, state: BuildState):
+        if state.arguments.static_moltenvk:
+            # TODO: Investigate MoltenVK static library lookup failure
+            state.options['prefer_static'] = 'true'
+            state.options['c_link_args'] = '-lc++,-framework,IOSurface'
 
-        lib_path = state.install_path / 'lib'
-        lib_path.mkdir(parents=True)
-        shutil.copy(state.lib_path / 'libMoltenVK.dylib', lib_path)
+        super().configure(state)
+
+    def post_build(self, state: BuildState):
+        if state.arguments.static_moltenvk:
+            install_path = state.install_path
+            install_path.mkdir(parents=True)
+            shutil.copy(state.build_path / self.name, install_path)
+        else:
+            self.copy_to_bin(state, self.name)
+
+            lib_path = state.install_path / 'lib'
+            lib_path.mkdir(parents=True)
+            shutil.copy(state.lib_path / 'libMoltenVK.dylib', lib_path)
