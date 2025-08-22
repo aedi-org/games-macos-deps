@@ -474,13 +474,13 @@ class MoltenVKTarget(base.MakeTarget):
         shutil.copy(state.build_path / 'LICENSE', state.install_path / 'apache2.txt')
         shutil.copy(
             src_path / 'static/MoltenVK.xcframework/macos-arm64_x86_64/libMoltenVK.a',
-            lib_path / 'libMoltenVK-static.a')
+            lib_path / 'libMoltenVK.a')
 
         self._make_dylib(state)
 
     def _make_dylib(self, state: BuildState):
         lib_path = state.deps_path / self.name / 'lib'
-        static_lib_path = lib_path / 'libMoltenVK-static.a'
+        static_lib_path = lib_path / 'libMoltenVK.a'
         dynamic_lib_path = lib_path / 'libMoltenVK.dylib'
 
         static_lib_time = os.stat(static_lib_path).st_mtime
