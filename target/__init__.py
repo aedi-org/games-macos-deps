@@ -74,6 +74,7 @@ def targets():
         SfmlTarget(),
         SndFileTarget(),
         SodiumTarget(),
+        SpirvHeadersTarget(),
         VorbisTarget(),
         VulkanHeadersTarget(),
         VulkanLoaderTarget(),

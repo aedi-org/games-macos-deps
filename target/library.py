@@ -828,6 +828,17 @@ class SodiumTarget(base.ConfigureMakeStaticDependencyTarget):
         return state.has_source_file('libsodium.pc.in')
 
 
+class SpirvHeadersTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self):
+        super().__init__('spirv-headers')
+        self.multi_platform = False
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-1.4.321.0.tar.gz',
+            '5bbea925663d4cd2bab23efad53874f2718248a73dcaf9dd21dff8cb48e602fc')
+        
+
 class VorbisTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('vorbis')
