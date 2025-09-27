@@ -837,7 +837,14 @@ class SpirvHeadersTarget(base.CMakeStaticDependencyTarget):
         state.download_source(
             'https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-1.4.321.0.tar.gz',
             '5bbea925663d4cd2bab23efad53874f2718248a73dcaf9dd21dff8cb48e602fc')
-        
+
+    # def post_build(self, state):
+    #     super().post_build(state)
+
+    #     install_path = state.install_path
+    #     share_path = install_path / 'share'
+    #     share_path.rename(install_path / 'lib')
+
 
 class VorbisTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):

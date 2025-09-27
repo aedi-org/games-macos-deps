@@ -91,4 +91,5 @@ def targets():
         JpegoptimTarget(),
         OptiPngTarget(),
         QPakManTarget(),
+        SpirvToolsTarget(),
     )

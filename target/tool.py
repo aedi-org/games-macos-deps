@@ -75,11 +75,12 @@ class EricWToolsTarget(base.CMakeStaticDependencyTarget):
 class GlslangTarget(base.CMakeSharedDependencyTarget):
     def __init__(self):
         super().__init__('glslang')
+        self.prerequisites = 'spirv-tools'
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/KhronosGroup/glslang/archive/refs/tags/15.4.0.tar.gz',
-            'b16c78e7604b9be9f546ee35ad8b6db6f39bbbbfb19e8d038b6fe2ea5bba4ff4')
+            'https://github.com/KhronosGroup/glslang/archive/refs/tags/16.0.0.tar.gz',
+            '172385478520335147d3b03a1587424af0935398184095f24beab128a254ecc7')
 
     def configure(self, state: BuildState):
         args = ('python3', 'update_glslang_sources.py')
@@ -145,3 +146,29 @@ class QPakManTarget(base.CMakeTarget):
 
     def post_build(self, state: BuildState):
         self.copy_to_bin(state)
+
+
+class SpirvToolsTarget(base.CMakeSharedDependencyTarget):
+    def __init__(self):
+        super().__init__('spirv-tools')
+        self.prerequisites = 'spirv-headers'
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/KhronosGroup/SPIRV-Tools/archive/refs/tags/vulkan-sdk-1.4.321.0.tar.gz',
+            '8327fb8f3e9472346a004c91dbb83a6e5f3b36c3846c142cf8c0dc8fac8710f3')
+
+    def configure(self, state: BuildState):
+        external_path = state.build_path / 'external'
+
+        if not external_path.exists():
+            external_path.mkdir(parents=True)
+
+            headers_path = external_path / 'spirv-headers'
+            headers_path.symlink_to(state.deps_path / 'spirv-headers')
+
+        opts = state.options
+        opts['ENABLE_CTEST'] = 'NO'
+        opts['SPIRV_TOOLS_BUILD_STATIC'] = 'NO'
+
+        super().configure(state)
