@@ -68,6 +68,15 @@ set_target_properties(spirv-lint PROPERTIES
 list(APPEND _cmake_import_check_targets spirv-lint )
 list(APPEND _cmake_import_check_files_for_spirv-lint "${_IMPORT_PREFIX}/bin/spirv-lint" )
 
+# Import target "spirv-diff" for configuration "Release"
+set_property(TARGET spirv-diff APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
+set_target_properties(spirv-diff PROPERTIES
+  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/bin/spirv-diff"
+  )
+
+list(APPEND _cmake_import_check_targets spirv-diff )
+list(APPEND _cmake_import_check_files_for_spirv-diff "${_IMPORT_PREFIX}/bin/spirv-diff" )
+
 # Import target "spirv-objdump" for configuration "Release"
 set_property(TARGET spirv-objdump APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(spirv-objdump PROPERTIES

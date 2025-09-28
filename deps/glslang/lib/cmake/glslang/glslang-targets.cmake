@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS glslang::SPVRemapper glslang::SPIRV glslang::glslang glslang::glslang-default-resource-limits glslang::glslang-standalone glslang::spirv-remap)
+foreach(_cmake_expected_target IN ITEMS glslang::SPIRV glslang::glslang glslang::glslang-default-resource-limits glslang::glslang-standalone)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -55,13 +55,6 @@ if(_IMPORT_PREFIX STREQUAL "/")
   set(_IMPORT_PREFIX "")
 endif()
 
-# Create imported target glslang::SPVRemapper
-add_library(glslang::SPVRemapper SHARED IMPORTED)
-
-set_target_properties(glslang::SPVRemapper PROPERTIES
-  INTERFACE_COMPILE_DEFINITIONS "GLSLANG_IS_SHARED_LIBRARY=1"
-)
-
 # Create imported target glslang::SPIRV
 add_library(glslang::SPIRV SHARED IMPORTED)
 
@@ -90,9 +83,6 @@ set_target_properties(glslang::glslang-default-resource-limits PROPERTIES
 
 # Create imported target glslang::glslang-standalone
 add_executable(glslang::glslang-standalone IMPORTED)
-
-# Create imported target glslang::spirv-remap
-add_executable(glslang::spirv-remap IMPORTED)
 
 # Load information for each installed configuration.
 file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/glslang-targets-*.cmake")

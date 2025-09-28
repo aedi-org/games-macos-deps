@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS spirv-as spirv-dis spirv-val spirv-opt spirv-cfg spirv-link spirv-lint spirv-objdump spirv-reduce)
+foreach(_cmake_expected_target IN ITEMS spirv-as spirv-dis spirv-val spirv-opt spirv-cfg spirv-link spirv-lint spirv-diff spirv-objdump spirv-reduce)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -75,6 +75,9 @@ add_executable(spirv-link IMPORTED)
 
 # Create imported target spirv-lint
 add_executable(spirv-lint IMPORTED)
+
+# Create imported target spirv-diff
+add_executable(spirv-diff IMPORTED)
 
 # Create imported target spirv-objdump
 add_executable(spirv-objdump IMPORTED)
