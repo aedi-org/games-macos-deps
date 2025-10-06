@@ -106,8 +106,8 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.4.8.tar.gz',
-            'd6d04e9014557906ee42aa1fe3cd580840ea482d4c3b1a45fddd45ec606d6e97',
+            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.0.tar.gz',
+            'e4ae831ce02f38b5594ab4dacb11c1a4067ca65ea183523655ebdc9c1b2b92a1',
             patches='fluidsynth-sf3-support')
 
     def configure(self, state: BuildState):
@@ -116,13 +116,15 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
         opts['DEFAULT_SOUNDFONT'] = 'default.sf2'
         opts['enable-framework'] = 'NO'
         opts['enable-readline'] = 'NO'
-        opts['enable-sdl2'] = 'NO'
+        opts['osal'] = 'cpp11'
 
         super().configure(state)
 
     def post_build(self, state: BuildState):
         super().post_build(state)
-        self.keep_module_target(state, 'FluidSynth::libfluidsynth')
+
+        module_paths = (state.install_path / 'lib/cmake/fluidsynth/FluidSynth-static-targets-release.cmake',)
+        self.keep_module_target(state, 'FluidSynth::libfluidsynth', module_paths)
 
 
 class FmtTarget(base.CMakeStaticDependencyTarget):
