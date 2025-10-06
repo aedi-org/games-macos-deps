@@ -59,7 +59,7 @@ endif()
 add_library(FluidSynth::libfluidsynth-OBJ INTERFACE IMPORTED)
 
 set_target_properties(FluidSynth::libfluidsynth-OBJ PROPERTIES
-  INTERFACE_LINK_LIBRARIES "-Wl,-framework,CoreAudio,-framework,AudioUnit;-Wl,-framework,CoreMIDI,-framework,CoreServices;Threads::Threads;GLib2::glib-2;GLib2::gthread-2;SndFile::sndfile;InstPatch::libinstpatch"
+  INTERFACE_LINK_LIBRARIES "-Wl,-framework,CoreAudio,-framework,AudioUnit;-Wl,-framework,CoreMIDI,-framework,CoreServices;Threads::Threads;SndFile::sndfile"
 )
 
 # Create imported target FluidSynth::fluidsynth
@@ -74,7 +74,7 @@ set_target_properties(FluidSynth::libfluidsynth PROPERTIES
 )
 
 # Load information for each installed configuration.
-file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/FluidSynthTargets-*.cmake")
+file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/FluidSynth-static-targets-*.cmake")
 foreach(_cmake_config_file IN LISTS _cmake_config_files)
   include("${_cmake_config_file}")
 endforeach()
