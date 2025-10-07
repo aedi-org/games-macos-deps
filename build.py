@@ -46,7 +46,6 @@ def _main():
 
     group = builder.argparser.add_argument_group('Hacks')
     group.add_argument('--static-moltenvk', action='store_true', help='link with static MoltenVK library')
-    group.add_argument('--quasi-glib', action='store_true', help='link with QuasiGlib library')
 
     builder.run(sys.argv[1:])
 
