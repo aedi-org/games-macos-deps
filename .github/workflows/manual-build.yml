@@ -33,7 +33,7 @@ on:
       verbose:
         description: 'Verbose build output'
         type: boolean
-      hack-static-moltenvk:
+      option-static-moltenvk:
         description: 'Link with static MoltenVK library'
         type: boolean
 
@@ -64,7 +64,7 @@ jobs:
           	BUILD_CMDLINE+=" --os-version-arm=${{ inputs.min-os-ver-arm }}"
           fi
 
-          if [ "${{ inputs.hack-static-moltenvk }}" == 'true' ]; then
+          if [ "${{ inputs.option-static-moltenvk }}" == 'true' ]; then
           	BUILD_CMDLINE+=' --static-moltenvk'
           fi
           

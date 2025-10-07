@@ -44,7 +44,7 @@ def _main():
     builder = aedi.Builder()
     builder.targets += target.targets()
 
-    group = builder.argparser.add_argument_group('Hacks')
+    group = builder.argparser.add_argument_group('Options')
     group.add_argument('--static-moltenvk', action='store_true', help='link with static MoltenVK library')
 
     builder.run(sys.argv[1:])
