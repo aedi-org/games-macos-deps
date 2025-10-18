@@ -92,6 +92,27 @@ class GlslangTarget(base.CMakeSharedDependencyTarget):
         super().configure(state)
 
 
+class ImageMagickTarget(base.ConfigureMakeStaticDependencyTarget):
+    # TODO: Remove absolute paths from various files inside bin and lib directories
+
+    def __init__(self):
+        super().__init__('imagemagick')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://imagemagick.org/archive/releases/ImageMagick-7.1.2-7.tar.xz',
+            '9bcbd4b70f70c9592307e19e875f5ec147e2a84ae9a36a297a76cafff18308d4')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('magick.sh.in')
+
+    def configure(self, state):
+        state.environment['LDFLAGS'] = '-lsharpyuv'  # webp dependency isn't pulled
+        state.options['--without-magick-plus-plus'] = None
+
+        super().configure(state)
+
+
 class JpegoptimTarget(base.CMakeTarget):
     def __init__(self):
         super().__init__('jpegoptim')
