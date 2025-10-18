@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS libjpeg-turbo::jpeg)
+foreach(_cmake_expected_target IN ITEMS libjpeg-turbo::jpeg-static)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -55,10 +55,10 @@ if(_IMPORT_PREFIX STREQUAL "/")
   set(_IMPORT_PREFIX "")
 endif()
 
-# Create imported target libjpeg-turbo::jpeg
-add_library(libjpeg-turbo::jpeg SHARED IMPORTED)
+# Create imported target libjpeg-turbo::jpeg-static
+add_library(libjpeg-turbo::jpeg-static STATIC IMPORTED)
 
-set_target_properties(libjpeg-turbo::jpeg PROPERTIES
+set_target_properties(libjpeg-turbo::jpeg-static PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
 )
 
