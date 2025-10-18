@@ -344,10 +344,8 @@ class JpegTurboTarget(base.CMakeDependencyTarget):
             '8f0012234b464ce50890c490f18194f913a7b1f4e6a03d6644179fa0f867d0cf')
 
     def configure(self, state: BuildState):
-        disabled_option = 'SHARED' if state.arguments.static_jpeg_turbo else 'STATIC'
-
         opts = state.options
-        opts[f'ENABLE_{disabled_option}'] = 'NO'
+        opts['ENABLE_SHARED'] = 'NO'
         opts['WITH_TURBOJPEG'] = 'NO'
 
         super().configure(state)
