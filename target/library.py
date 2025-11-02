@@ -106,8 +106,8 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.0.tar.gz',
-            'e4ae831ce02f38b5594ab4dacb11c1a4067ca65ea183523655ebdc9c1b2b92a1',
+            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.1.tar.gz',
+            '10b2e32ba78c72ac1384965c66df06443a4bd0ab968dcafaf8fa17086001bf03',
             patches='fluidsynth-sf3-support')
 
     def configure(self, state: BuildState):
@@ -119,12 +119,6 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
         opts['osal'] = 'cpp11'
 
         super().configure(state)
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        module_paths = (state.install_path / 'lib/cmake/fluidsynth/FluidSynth-static-targets-release.cmake',)
-        self.keep_module_target(state, 'FluidSynth::libfluidsynth', module_paths)
 
 
 class FmtTarget(base.CMakeStaticDependencyTarget):
