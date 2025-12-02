@@ -63,7 +63,7 @@ set_target_properties(ZLIB::ZLIB PROPERTIES
 )
 
 # Load information for each installed configuration.
-file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/ZLIB-*.cmake")
+file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/ZLIB-targets-*.cmake")
 foreach(_cmake_config_file IN LISTS _cmake_config_files)
   include("${_cmake_config_file}")
 endforeach()

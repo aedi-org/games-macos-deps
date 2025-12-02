@@ -31,6 +31,6 @@ set(ZLIB_INCLUDE_DIRS "${ZLIB_INCLUDE_DIR}")
 set_and_check(ZLIB_LIB_DIR "${PACKAGE_PREFIX_DIR}/lib")
 set(ZLIB_LIBRARIES ZLIB::ZLIB)
 
-include("${CMAKE_CURRENT_LIST_DIR}/ZLIB.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/ZLIB-targets.cmake")
 
 check_required_components(ZLIB)
