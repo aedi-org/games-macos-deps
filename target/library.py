@@ -935,18 +935,17 @@ class ZlibNgTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.2.5.tar.gz',
-            '5b3b022489f3ced82384f06db1e13ba148cbce38c7941e424d6cb414416acd18')
+            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.1.tar.gz',
+            '94cfa0a53a8265c813c8369d3963bf09ac6a357824ad1f93aee13486176e152e')
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('zlib-ng.h')
 
     def configure(self, state: BuildState):
         opts = state.options
+        opts['BUILD_TESTING'] = 'NO'
         opts['WITH_GTEST'] = 'NO'
         opts['WITH_SANITIZER'] = 'NO'
         opts['ZLIB_COMPAT'] = 'YES'
-        opts['ZLIB_ENABLE_TESTS'] = 'NO'
-        opts['ZLIBNG_ENABLE_TESTS'] = 'NO'
 
         super().configure(state)
