@@ -933,8 +933,8 @@ class ZlibNgTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.1.tar.gz',
-            '94cfa0a53a8265c813c8369d3963bf09ac6a357824ad1f93aee13486176e152e')
+            'https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.2.tar.gz',
+            '6a0561b50b8f5f6434a6a9e667a67026f2b2064a1ffa959c6b2dae320161c2a8')
 
     def detect(self, state: BuildState) -> bool:
         return state.has_source_file('zlib-ng.h')
