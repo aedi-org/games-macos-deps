@@ -24,7 +24,7 @@ jobs:
           - quakespasm-exp
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: 'recursive'
 
@@ -36,10 +36,9 @@ jobs:
         run: |
           ./build.py --target ${{ matrix.target }} --xcode
 
-      - name: List Build Directory
+      - name: List files
         if: always()
-        shell: bash
         run: |
           git status
-          ls -lR .
+          ls -lR
 ...
