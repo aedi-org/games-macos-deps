@@ -39,8 +39,15 @@ import aedi  # noqa: E402
 # pylint: disable=wrong-import-position
 import target  # noqa: E402
 
+# pylint: disable=wrong-import-order
+from aedi import utility  # noqa: E402
+
 
 def _main():
+    # MoltenVK 1.4.1 raised minimum OS version to macOS 11.0
+    # https://github.com/KhronosGroup/MoltenVK/releases/tag/v1.4.1
+    utility.OS_VERSION_X86_64 = utility.StrictVersion('11.0')
+
     builder = aedi.Builder()
     builder.targets += target.targets()
 
