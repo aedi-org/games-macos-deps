@@ -144,10 +144,6 @@ class DevilutionXTarget(CMakeMainTarget):
     def prepare_source(self, state: BuildState):
         state.checkout_git('https://github.com/diasurgical/devilutionX.git')
 
-    def configure(self, state: BuildState):
-        state.options['BUILD_TESTING'] = 'NO'
-        super().configure(state)
-
 
 class EDuke32Target(MakeMainTarget):
     def __init__(self, name='eduke32'):

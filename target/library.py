@@ -95,7 +95,6 @@ class FlacTarget(base.CMakeStaticDependencyTarget):
         opts['BUILD_CXXLIBS'] = 'NO'
         opts['BUILD_EXAMPLES'] = 'NO'
         opts['BUILD_PROGRAMS'] = 'NO'
-        opts['BUILD_TESTING'] = 'NO'
 
         super().configure(state)
 
@@ -805,7 +804,6 @@ class SndFileTarget(base.CMakeStaticDependencyTarget):
         opts = state.options
         opts['BUILD_EXAMPLES'] = 'NO'
         opts['BUILD_PROGRAMS'] = 'NO'
-        opts['BUILD_TESTING'] = 'NO'
         opts['ENABLE_CPACK'] = 'NO'
 
         super().configure(state)
@@ -943,7 +941,6 @@ class ZlibNgTarget(base.CMakeStaticDependencyTarget):
 
     def configure(self, state: BuildState):
         opts = state.options
-        opts['BUILD_TESTING'] = 'NO'
         opts['WITH_GTEST'] = 'NO'
         opts['WITH_SANITIZER'] = 'NO'
         opts['ZLIB_COMPAT'] = 'YES'
