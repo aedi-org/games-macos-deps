@@ -64,7 +64,7 @@ typedef unsigned long MTLArgumentBuffersTier;
  */
 #define MVK_VERSION_MAJOR   1
 #define MVK_VERSION_MINOR   4
-#define MVK_VERSION_PATCH   0
+#define MVK_VERSION_PATCH   1
 
 #define MVK_MAKE_VERSION(major, minor, patch)  (((major) * 10000) + ((minor) * 100) + (patch))
 #define MVK_VERSION              MVK_MAKE_VERSION(MVK_VERSION_MAJOR, MVK_VERSION_MINOR, MVK_VERSION_PATCH)
@@ -211,7 +211,7 @@ typedef struct {
 	VkBool32 synchronousQueueSubmits;                                          /**< MVK_CONFIG_SYNCHRONOUS_QUEUE_SUBMITS */
 	MVKPrefillMetalCommandBuffersStyle prefillMetalCommandBuffers;             /**< MVK_CONFIG_PREFILL_METAL_COMMAND_BUFFERS */
 	uint32_t maxActiveMetalCommandBuffersPerQueue;                             /**< MVK_CONFIG_MAX_ACTIVE_METAL_COMMAND_BUFFERS_PER_QUEUE */
-	VkBool32 supportLargeQueryPools;                                           /**< MVK_CONFIG_SUPPORT_LARGE_QUERY_POOLS */
+	VkBool32 supportLargeQueryPools;                                           /**< Obsolete, deprecated, and ignored. */
 	VkBool32 presentWithCommandBuffer;                                         /**< Obsolete, deprecated, and ignored. */
 	VkBool32 swapchainMinMagFilterUseNearest;                                  /**< MVK_CONFIG_SWAPCHAIN_MIN_MAG_FILTER_USE_NEAREST */
 	uint64_t metalCompileTimeout;                                              /**< MVK_CONFIG_METAL_COMPILE_TIMEOUT */
@@ -220,7 +220,7 @@ typedef struct {
 	VkBool32 displayWatermark;                                                 /**< MVK_CONFIG_DISPLAY_WATERMARK */
 	VkBool32 specializedQueueFamilies;                                         /**< MVK_CONFIG_SPECIALIZED_QUEUE_FAMILIES */
 	VkBool32 switchSystemGPU;                                                  /**< MVK_CONFIG_SWITCH_SYSTEM_GPU */
-	VkBool32 fullImageViewSwizzle;                                             /**< MVK_CONFIG_FULL_IMAGE_VIEW_SWIZZLE */
+	VkBool32 fullImageViewSwizzle;                                             /**< Obsolete, deprecated, and ignored. */
 	uint32_t defaultGPUCaptureScopeQueueFamilyIndex;                           /**< MVK_CONFIG_DEFAULT_GPU_CAPTURE_SCOPE_QUEUE_FAMILY_INDEX */
 	uint32_t defaultGPUCaptureScopeQueueIndex;                                 /**< MVK_CONFIG_DEFAULT_GPU_CAPTURE_SCOPE_QUEUE_INDEX */
 	MVKConfigFastMath fastMathEnabled;                                         /**< MVK_CONFIG_FAST_MATH_ENABLED */
@@ -246,6 +246,7 @@ typedef struct {
 	VkBool32 useMetalPrivateAPI;                                               /**< MVK_CONFIG_USE_METAL_PRIVATE_API */
 	const char* shaderDumpDir;                                                 /**< MVK_CONFIG_SHADER_DUMP_DIR */
 	VkBool32 shaderLogEstimatedGLSL;                                           /**< MVK_CONFIG_SHADER_LOG_ESTIMATED_GLSL */
+	VkBool32 liveCheckAllResources;                                            /**< MVK_CONFIG_LIVE_CHECK_ALL_RESOURCES */
 } MVKConfiguration;
 
 // Legacy support for renamed struct elements.
