@@ -545,15 +545,15 @@ class OpusTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         # Temporary solution for lack of TLSv1.3 support in Apple Python
-        # The following URL cannot be retrieved using Python 3.9.6 from Xcode 15.x
-        # https://downloads.xiph.org/releases/opus/opus-1.5.1.tar.gz
+        # The following URL cannot be retrieved using Python 3.9.6 from Xcode 26.x
+        # https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz
         # ssl.SSLError: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:1129)
         # >>> import ssl; print(ssl.OPENSSL_VERSION, ssl.HAS_TLSv1_3)
         # LibreSSL 2.8.3 False
         # TODO: remove this workaround when TLSv1.3 will be available in Python shipped with Xcode
         state.download_source(
-            'https://ftp.osuosl.org/pub/xiph/releases/opus/opus-1.5.2.tar.gz',
-            '65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1')
+            'https://ftp.osuosl.org/pub/xiph/releases/opus/opus-1.6.1.tar.gz',
+            '6ffcb593207be92584df15b32466ed64bbec99109f007c82205f0194572411a1')
 
     def configure(self, state: BuildState):
         state.options['PC_BUILD'] = 'floating-point'
