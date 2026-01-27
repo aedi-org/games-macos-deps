@@ -265,7 +265,7 @@ class VkQuakeTarget(MesonStaticTarget):
         state.checkout_git('https://github.com/Novum/vkQuake.git')
 
     def detect(self, state: BuildState) -> bool:
-        return state.has_source_file('Quake/vkquake.pak')
+        return state.has_source_file('Misc/vkQuake_512.png')
 
     def configure(self, state: BuildState):
         if state.arguments.static_moltenvk:
