@@ -59,7 +59,7 @@ endif()
 add_library(FluidSynth::libfluidsynth-OBJ INTERFACE IMPORTED)
 
 set_target_properties(FluidSynth::libfluidsynth-OBJ PROPERTIES
-  INTERFACE_LINK_LIBRARIES "-Wl,-framework,CoreAudio,-framework,AudioUnit;-Wl,-framework,CoreFoundation,-framework,CoreMIDI,-framework,CoreServices;Threads::Threads;SndFile::sndfile"
+  INTERFACE_LINK_LIBRARIES "-Wl,-framework,CoreAudio,-framework,AudioUnit;-Wl,-framework,CoreFoundation,-framework,CoreMIDI,-framework,CoreServices;m;Threads::Threads;SndFile::sndfile"
 )
 
 # Create imported target FluidSynth::fluidsynth
