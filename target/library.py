@@ -916,8 +916,8 @@ class XmpTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/libxmp/libxmp/releases/download/libxmp-4.6.3/libxmp-4.6.3.tar.gz',
-            'b189a2ff3f3eef0008512e0fb27c2cdc27480bc1066b82590a84d02548fab96d')
+            'https://github.com/libxmp/libxmp/releases/download/libxmp-4.7.0/libxmp-4.7.0.tar.gz',
+            'b6251de1859352c6988752563d60983cb8aa9fd7dfe9f81b8bc6688da47f3464')
 
     def configure(self, state: BuildState):
         opts = state.options
