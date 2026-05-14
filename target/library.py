@@ -119,6 +119,27 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
         super().configure(state)
 
+    def post_build(self, state: BuildState):
+        super().post_build(state)
+
+        module_path = state.install_path / 'lib/cmake/fluidsynth/FluidSynth-static-targets-release.cmake'
+
+        with open(module_path) as f:
+            toremove = (
+                'set_target_properties(FluidSynth::fluidsynth PROPERTIES\n'
+                '  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/bin/fluidsynth"\n'
+                '  )\n',
+                'list(APPEND _cmake_import_check_files_for_FluidSynth::fluidsynth "${_IMPORT_PREFIX}/bin/fluidsynth" )\n'
+            )
+
+            module = f.read()
+
+            for entry in toremove:
+                module = module.replace(entry, '')
+
+        with open(module_path, 'w') as f:
+            f.write(module)
+
 
 class FmtTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
