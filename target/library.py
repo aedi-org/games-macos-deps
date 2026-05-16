@@ -748,21 +748,11 @@ class Sdl2MixerTarget(base.CMakeStaticDependencyTarget):
 class Sdl2NetTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('sdl2_net')
-        self.version = '2.2.0'
 
     def prepare_source(self, state: BuildState):
-        base_url = 'https://github.com/libsdl-org/SDL_net/releases/download'
         state.download_source(
-            f'{base_url}/release-{self.version}/SDL2_net-{self.version}.tar.gz',
-            '4e4a891988316271974ff4e9585ed1ef729a123d22c08bd473129179dc857feb')
-
-    def post_build(self, state: BuildState):
-        super().post_build(state)
-
-        self.write_pc_file(state, filename='SDL2_net.pc', name='SDL2_net',
-                           description='net library for Simple DirectMedia Layer',
-                           version=self.version, requires='sdl2 >= 2.0.4',
-                           libs='-lSDL2_net', cflags='-I${includedir}/SDL2')
+            'https://github.com/libsdl-org/SDL_net/releases/download/release-2.4.0/SDL2_net-2.4.0.tar.gz',
+            '9cbca2527feb3f1a622d48ba65cc7dee9b1e3f2c55ceafb7d7720bb058aafb30')
 
 
 class Sdl2TtfTarget(base.CMakeStaticDependencyTarget):
