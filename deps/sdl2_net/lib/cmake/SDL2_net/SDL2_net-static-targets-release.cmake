@@ -12,8 +12,8 @@ set_target_properties(SDL2_net::SDL2_net-static PROPERTIES
   IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/libSDL2_net.a"
   )
 
-list(APPEND _IMPORT_CHECK_TARGETS SDL2_net::SDL2_net-static )
-list(APPEND _IMPORT_CHECK_FILES_FOR_SDL2_net::SDL2_net-static "${_IMPORT_PREFIX}/lib/libSDL2_net.a" )
+list(APPEND _cmake_import_check_targets SDL2_net::SDL2_net-static )
+list(APPEND _cmake_import_check_files_for_SDL2_net::SDL2_net-static "${_IMPORT_PREFIX}/lib/libSDL2_net.a" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)
