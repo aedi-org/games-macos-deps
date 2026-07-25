@@ -857,12 +857,12 @@ class VulkanHeadersTarget(base.CMakeStaticDependencyTarget):
 class VulkanLoaderTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('vulkan-loader')
-        self.version = '1.4.313'
+        self.version = '1.4.357'
 
     def prepare_source(self, state: BuildState):
         state.download_source(
             f'https://github.com/KhronosGroup/Vulkan-Loader/archive/refs/tags/v{self.version}.tar.gz',
-            '0c2436993597f5bd0ee420b6b27632758ed3ab439043d251795fd13d4e70a2f3')
+            '54fa49715782b919092c8353a8a7656180cad1a1b6879b61845e77c261edb2e7')
 
     def configure(self, state: BuildState):
         state.options['APPLE_STATIC_LOADER'] = 'YES'
