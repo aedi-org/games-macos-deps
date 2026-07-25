@@ -44,9 +44,9 @@ def _main():
     builder = aedi.Builder()
     builder.targets += target.targets()
 
-    # MoltenVK 1.4.1 raised minimum OS version to macOS 11.0
-    # https://github.com/KhronosGroup/MoltenVK/releases/tag/v1.4.1
-    builder.os_version_x64 = Version('11.0')
+    # MoltenVK 1.4.2 raised minimum OS version to macOS 12.0
+    # https://github.com/KhronosGroup/MoltenVK/releases/tag/v1.4.2
+    builder.os_version_arm = builder.os_version_x64 = Version('12.0')
 
     group = builder.argparser.add_argument_group('Options')
     group.add_argument('--static-moltenvk', action='store_true', help='link with static MoltenVK library')
