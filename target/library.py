@@ -105,8 +105,8 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.6.tar.gz',
-            '0825f024c9cf7a18073739b83612d46542ecbfb349ae9147a1e9f08e2d524407',
+            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.7.tar.gz',
+            'ce27840221ab00dd59bf27e85ecbba480c6c2a7c9fbec4243658f68f59c07f4a',
             patches='fluidsynth-sf3-support')
 
     def configure(self, state: BuildState):
