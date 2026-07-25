@@ -78,8 +78,8 @@ class GlslangTarget(base.CMakeSharedDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/KhronosGroup/glslang/archive/refs/tags/16.3.0.tar.gz',
-            'efff5a15258dce1ca2d323bf64c974f5fca03778174615dbc30c8d36db645bf5')
+            'https://github.com/KhronosGroup/glslang/archive/refs/tags/16.4.0.tar.gz',
+            'c634d6237eb0cc04d5ddf5dc9955daa175d82b0f8797acab45b49965e9f6df13')
 
     def configure(self, state: BuildState):
         args = ('python3', 'update_glslang_sources.py')
