@@ -884,8 +884,8 @@ class WavPackTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/dbry/WavPack/releases/download/5.8.1/wavpack-5.8.1.tar.xz',
-            '7322775498602c8850afcfc1ae38f99df4cbcd51386e873d6b0f8047e55c0c26')
+            'https://github.com/dbry/WavPack/releases/download/5.9.0/wavpack-5.9.0.tar.xz',
+            'b5291bc4e6d69ebbd3da3800c5bf4a70f19bb92679b23e09b3b612c1e648d1ff')
 
     def configure(self, state: BuildState):
         opts = state.options
