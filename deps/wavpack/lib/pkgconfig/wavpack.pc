@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: wavpack
 Description: wavpack library
-Version: 5.8.1
+Version: 5.9.0
 Requires:
 Conflicts:
 Libs: -L${libdir} -lwavpack
