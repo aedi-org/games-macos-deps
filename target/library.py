@@ -105,8 +105,8 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.5.7.tar.gz',
-            'ce27840221ab00dd59bf27e85ecbba480c6c2a7c9fbec4243658f68f59c07f4a',
+            'https://github.com/FluidSynth/fluidsynth/archive/refs/tags/v2.6.0.tar.gz',
+            '6d17570ea2086dd6fbcac995465773a6f316e689089b7fb7ba0b34c2ec6f680d',
             patches='fluidsynth-sf3-support')
 
     def configure(self, state: BuildState):
@@ -115,7 +115,6 @@ class FluidSynthTarget(base.CMakeStaticDependencyTarget):
         opts['DEFAULT_SOUNDFONT'] = 'default.sf2'
         opts['enable-framework'] = 'NO'
         opts['enable-readline'] = 'NO'
-        opts['osal'] = 'cpp11'
 
         super().configure(state)
 
