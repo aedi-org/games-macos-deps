@@ -19,14 +19,12 @@ set(FLUIDSYNTH_SUPPORT_WAVEOUT )
 set(FLUIDSYNTH_SUPPORT_WINMIDI )
 
 # Files support
-set(FLUIDSYNTH_SUPPORT_DLS )
-set(FLUIDSYNTH_SUPPORT_LIBINSTPATCH )
+set(FLUIDSYNTH_SUPPORT_DLS 1)
 set(FLUIDSYNTH_SUPPORT_LIBSNDFILE 1)
 set(FLUIDSYNTH_SUPPORT_LIBSNDFILE_LEGACY TRUE)
 set(FLUIDSYNTH_SUPPORT_SF3 1)
 
 # Miscellaneous support
-set(FLUIDSYNTH_SUPPORT_GLIB )
 set(FLUIDSYNTH_SUPPORT_DBUS )
 set(FLUIDSYNTH_SUPPORT_GETOPT 1)
 set(FLUIDSYNTH_SUPPORT_IPV6 1)
@@ -74,10 +72,6 @@ if(NOT FLUIDSYNTH_IS_SHARED)
     find_dependency(Threads)
   endif()
 
-  if(FLUIDSYNTH_SUPPORT_GLIB AND (NOT TARGET GLib2::glib-2 OR NOT TARGET GLib2::gthread-2))
-    find_dependency(GLib2 2.6.5)
-  endif()
-
   if(FLUIDSYNTH_SUPPORT_ALSA AND NOT TARGET ALSA::ALSA)
     find_dependency(ALSA 0.9.1)
   endif()
@@ -88,14 +82,6 @@ if(NOT FLUIDSYNTH_IS_SHARED)
 
   if(FLUIDSYNTH_SUPPORT_JACK AND NOT TARGET Jack::Jack)
     find_dependency(Jack)
-  endif()
-
-  if(FLUIDSYNTH_SUPPORT_LADSPA AND NOT TARGET GLib2::gmodule-2)
-    message(WARN "LADSPA support was built in but gmodule could not be found.")
-  endif()
-
-  if(FLUIDSYNTH_SUPPORT_LIBINSTPATCH AND NOT TARGET InstPatch::libinstpatch)
-    find_dependency(InstPatch 1.1.0)
   endif()
 
   if(FLUIDSYNTH_SUPPORT_LIBSNDFILE_LEGACY AND NOT TARGET SndFile::sndfile)

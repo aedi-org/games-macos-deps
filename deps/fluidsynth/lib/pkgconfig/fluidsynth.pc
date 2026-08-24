@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: FluidSynth
 Description: Software SoundFont synth
-Version: 2.5.7
+Version: 2.6.0
 Requires.private: sndfile
 Libs: -L${libdir} -lfluidsynth
 Libs.private: -lm -Wl,-framework,CoreAudio,-framework,AudioUnit -Wl,-framework,CoreFoundation,-framework,CoreMIDI,-framework,CoreServices
