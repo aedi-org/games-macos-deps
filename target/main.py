@@ -286,3 +286,19 @@ class VkQuakeTarget(MesonStaticTarget):
             lib_path = state.install_path / 'lib'
             lib_path.mkdir(parents=True)
             shutil.copy(state.lib_path / 'libMoltenVK.dylib', lib_path)
+
+
+class PvZPortableTarget(CMakeMainTarget):
+    def __init__(self):
+        super().__init__('pvz-portable')
+        self.outputs = (self.name,)
+
+    def prepare_source(self, state: BuildState):
+        state.checkout_git('https://github.com/wszqkzqk/PvZ-Portable.git')
+
+    def configure(self, state: BuildState):
+        # TODO: Most of SDL Mixer X modules are disabled. Is this OK?
+        # TODO: Compare with MIXERX_ENABLE_LGPL option
+        state.options['MIXERX_ENABLE_GPL'] = 'ON'
+
+        super().configure(state)
