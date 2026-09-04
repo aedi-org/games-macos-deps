@@ -60,6 +60,7 @@ def targets():
         MoltenVKTarget(),
         Mpg123Target(),
         OggTarget(),
+        OpenMPTTarget(),
         OpusFileTarget(),
         OpusTarget(),
         PcreTarget(),

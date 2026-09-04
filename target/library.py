@@ -559,6 +559,30 @@ class OggTarget(base.CMakeStaticDependencyTarget):
             '5c8253428e181840cd20d41f3ca16557a9cc04bad4a3d04cce84808677fa1061')
 
 
+class OpenMPTTarget(base.ConfigureMakeStaticDependencyTarget):
+    def __init__(self):
+        super().__init__('openmpt')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-0.8.9+release.autotools.tar.gz',
+            'd7ce84fd05d686c4bcf66af40eae857afa371442db60eeda3f874bd6cf6fc318')
+
+    def detect(self, state: BuildState) -> bool:
+        return state.has_source_file('libopenmpt/libopenmpt.h')
+
+    def configure(self, state: BuildState):
+        # TODO: figure out why standard flag is not specified by configure script
+        state.environment['CXXFLAGS'] = '-std=c++17'
+
+        opts = state.options
+        opts['--disable-examples'] = None
+        opts['--disable-openmpt123'] = None
+        opts['--disable-tests'] = None
+
+        super().configure(state)
+
+
 class OpusTarget(base.CMakeStaticDependencyTarget):
     def __init__(self):
         super().__init__('opus')
