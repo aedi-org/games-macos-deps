@@ -4,7 +4,7 @@
 // Copyright (C) 2017, 2022-2024 Arm Limited.
 // Copyright (C) 2015-2018 Google, Inc.
 // Modifications Copyright (C) 2020 Advanced Micro Devices, Inc. All rights reserved.
-// Modifications Copyright (C) 2024 Valve Corporation.
+// Modifications Copyright (C) 2024, 2026 Valve Corporation.
 //
 // All rights reserved.
 //
@@ -235,6 +235,7 @@ const char* const E_GL_EXT_conservative_depth               = "GL_EXT_conservati
 const char* const E_GL_EXT_descriptor_heap                  = "GL_EXT_descriptor_heap";
 const char* const E_GL_EXT_structured_descriptor_heap       = "GL_EXT_structured_descriptor_heap";
 const char* const E_GL_EXT_split_barrier                    = "GL_EXT_split_barrier";
+const char* const E_GL_EXT_optional_input_attachment_index  = "GL_EXT_optional_input_attachment_index";
 
 // Arrays of extensions for the above viewportEXTs duplications
 
@@ -392,6 +393,8 @@ const char* const E_GL_EXT_long_vector = "GL_EXT_long_vector";
 const char* const E_GL_EXT_shader_64bit_indexing = "GL_EXT_shader_64bit_indexing";
 
 const char* const E_GL_EXT_shader_invocation_reorder = "GL_EXT_shader_invocation_reorder";
+
+const char* const E_GL_EXT_cooperative_matrix_maintenance1           = "GL_EXT_cooperative_matrix_maintenance1";
 
 // Arrays of extensions for the above AEP duplications
 
