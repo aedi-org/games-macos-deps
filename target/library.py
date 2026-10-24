@@ -659,8 +659,8 @@ class PngTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://downloads.sourceforge.net/project/libpng/libpng16/1.6.58/libpng-1.6.58.tar.xz',
-            '28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775')
+            'https://downloads.sourceforge.net/project/libpng/libpng16/1.6.59/libpng-1.6.59.tar.xz',
+            'd80dd2a38a37f803cb9b6ac7b14bd6e74ddc3b654780a8380bdf93523fdb4389')
 
     def configure(self, state: BuildState):
         opts = state.options
