@@ -92,5 +92,6 @@ def targets():
         ImageMagickTarget(),
         JpegoptimTarget(),
         OptiPngTarget(),
+        PngcheckTarget(),
         QPakManTarget(),
     )

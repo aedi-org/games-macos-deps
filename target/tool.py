@@ -155,6 +155,16 @@ class OptiPngTarget(base.CMakeStaticDependencyTarget):
         os.chmod(state.install_path / 'bin/optipng', 0o757)
 
 
+class PngcheckTarget(base.CMakeStaticDependencyTarget):
+    def __init__(self):
+        super().__init__('pngcheck')
+
+    def prepare_source(self, state: BuildState):
+        state.download_source(
+            'https://github.com/pnggroup/pngcheck/archive/refs/tags/v4.0.1.tar.gz',
+            'a24ac2348efca5895e9d6f53fd316f3d5c409ab92a74b2b8106541759304da53')
+
+
 class QPakManTarget(base.CMakeTarget):
     def __init__(self):
         super().__init__('qpakman')
