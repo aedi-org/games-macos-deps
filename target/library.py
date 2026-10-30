@@ -405,8 +405,8 @@ class MikmodTarget(base.CMakeStaticDependencyTarget):
 
     def prepare_source(self, state: BuildState):
         state.download_source(
-            'https://downloads.sourceforge.net/project/mikmod/libmikmod/3.3.15/libmikmod-3.3.15.tar.gz',
-            'dc27b338154b8f88dc9e6317196d42c6abc13bf63c4e055257a18d4e38e1afa2')
+            'https://downloads.sourceforge.net/project/mikmod/libmikmod/3.3.16/libmikmod-3.3.16.tar.gz',
+            '7b24e41468b0dfe7fae1104ae6a0d7c52e04a65e1851b268c7074e4d06685a53')
 
     def configure(self, state: BuildState):
         opts = state.options
